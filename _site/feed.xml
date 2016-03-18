@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>HyG</title>
-    <description>浩阳的博客 前端爱好者</description>
+    <title>CaoXiaoqing</title>
+    <description>CXQ的博客 生活爱好者</description>
     <link>/</link>
     <atom:link href="/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Fri, 18 Mar 2016 21:17:21 +0800</pubDate>
-    <lastBuildDate>Fri, 18 Mar 2016 21:17:21 +0800</lastBuildDate>
+    <pubDate>Fri, 18 Mar 2016 21:23:48 +0800</pubDate>
+    <lastBuildDate>Fri, 18 Mar 2016 21:23:48 +0800</lastBuildDate>
     <generator>Jekyll v3.1.2</generator>
     
       <item>
