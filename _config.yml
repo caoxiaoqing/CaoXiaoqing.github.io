@@ -9,8 +9,7 @@ description: CXQ的博客 生活爱好者
 
 # baseurl: "" # the subpath of your site, e.g. /blog/
 # url: "http://yourdomain.com" # the base hostname & protocol for your site
-# twitter_username: jekyllrb
-github_username:  Gaohaoyang
+github_username:  caoxiaoqing
 permalink: /:year/:month/:day/:title/
 
 # Build settings
@@ -21,5 +20,3 @@ markdown: kramdown
 # highlighter: pygments
 # highlighter: rouge
 # highlighter: false
-
-Auto-regeneration: enabled
