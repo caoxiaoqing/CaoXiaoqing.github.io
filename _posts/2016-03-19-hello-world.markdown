@@ -1,11 +1,15 @@
 ---
 layout: post
-title:  "hello world"
-date:   2016-03-19 20:08:30
-categories: hello
+title:  "Hello World"
+date:   2016-03-18 22:14:54
+categories: HelloWorld
+excerpt: Hello World
 ---
 
-1988年来到这个世界，则象牙塔里待了若干年，2015年一头扎进滚滚红尘
+* content
+{:toc}
+
+1988年来到这个世界，则象牙塔里待了21年，2015年一头扎进滚滚红尘
 
 20岁之前以为自己会成为一个牛叉的理论物理学家，于是学习数学
 
