@@ -100,7 +100,10 @@
       <article>
         <ul id="markdown-toc">
   <li><a href="#section" id="markdown-toc-section">(1)贝叶斯统计简史</a></li>
-  <li><a href="#section-1" id="markdown-toc-section-1">(3)全概率公式</a></li>
+  <li><a href="#section-1" id="markdown-toc-section-1">(2)条件概率</a></li>
+  <li><a href="#section-2" id="markdown-toc-section-2">(3)全概率公式</a></li>
+  <li><a href="#section-3" id="markdown-toc-section-3">(4)贝叶斯定理</a></li>
+  <li><a href="#section-4" id="markdown-toc-section-4">(5)贝叶斯推断</a></li>
 </ul>
 
 <h3 id="section">(1)贝叶斯统计简史</h3>
@@ -109,18 +112,33 @@
 <p>现代贝叶斯统计学的复兴肇始于Jeffreys(1939)，从1950年代开始，经过众多统计学家的努力，贝叶斯统计学逐渐发展壮大，并发展出了贝叶斯统计决策理论这个新分支。特别到1990年代以后，随着计算方法MCMC在贝叶斯统计领域的广泛应用，解决了贝叶斯统计学长期存在的计算困难的问题，贝叶斯统计学这才迎来了它的春天。</p>
 
 <hr />
-<p>### (2)条件概率</p>
+
+<h3 id="section-1">(2)条件概率</h3>
+<p>由于<script type="math/tex">$P(A\cap B)=P(A|B)P(B)=P(B|A)P(A)</script>$，故而有条件概率公式:</p>
+
+<script type="math/tex; mode=display">P(A|B)= {P(A\cap B)\over P(B)}={P(B|A)P(A)\over P(B)}</script>
 
 <hr />
 
-<h3 id="section-1">(3)全概率公式</h3>
-<p>我也不知道</p>
+<h3 id="section-2">(3)全概率公式</h3>
+<p>假设事件<script type="math/tex">$A</script>$和<script type="math/tex">$A'</script>$共同构成了样本空间，那么就有
+<script type="math/tex">P(B)=P(B \cap A)+P(B \cap A')</script>
+而通过上一节的推倒，我们有
+<script type="math/tex">P(B \cap A)=P(B|A)P(A)</script>
+所以，
+<script type="math/tex">P(B)=P(B|A)P(A)+P(B|A')P(A')</script>
+这就是全概率公式。</p>
+
+<p>将这个公式带入上一节的条件概率公式，就得到条件概率的另一种写法：
+<script type="math/tex">P(A|B)={P(B|A)P(A)\over P(B|A)P(A)+P(B|A')P(A')}</script></p>
 
 <hr />
-<p>### (4)贝叶斯定理</p>
+
+<h3 id="section-3">(4)贝叶斯定理</h3>
 
 <hr />
-<p>### (5)贝叶斯推断</p>
+
+<h3 id="section-4">(5)贝叶斯推断</h3>
 
 <hr />
 
@@ -215,4 +233,14 @@
     });
   </script>
   </body>
+  
+  
+  <script type="text/javascript">window.MathJax = false;
+  </script>
+  <script type="text/x-mathjax-config"> 
+     MathJax.Hub.Config({tex2jax: {inlineMath: [["$","$"],["\"]]}});
+  </script>
+  <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML-full">MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
+  </script>
+  
 </html>
