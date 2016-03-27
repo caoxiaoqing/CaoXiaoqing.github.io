@@ -5,8 +5,8 @@
     <description>CXQ的博客 生活爱好者</description>
     <link>/</link>
     <atom:link href="/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sun, 27 Mar 2016 23:23:19 +0800</pubDate>
-    <lastBuildDate>Sun, 27 Mar 2016 23:23:19 +0800</lastBuildDate>
+    <pubDate>Sun, 27 Mar 2016 23:58:28 +0800</pubDate>
+    <lastBuildDate>Sun, 27 Mar 2016 23:58:28 +0800</lastBuildDate>
     <generator>Jekyll v3.1.2</generator>
     
       <item>
@@ -27,23 +27,30 @@
 &lt;hr /&gt;
 
 &lt;h3 id=&quot;section-1&quot;&gt;(2)条件概率&lt;/h3&gt;
-&lt;p&gt;由于&lt;script type=&quot;math/tex&quot;&gt;$P(A\cap B)=P(A|B)P(B)=P(B|A)P(A)&lt;/script&gt;$，故而有条件概率公式:&lt;/p&gt;
+&lt;p&gt;由于&lt;script type=&quot;math/tex&quot;&gt;P(A\cap B)=P(A|B)P(B)=P(B|A)P(A)&lt;/script&gt;，故而有条件概率公式:&lt;/p&gt;
 
 &lt;script type=&quot;math/tex; mode=display&quot;&gt;P(A|B)= {P(A\cap B)\over P(B)}={P(B|A)P(A)\over P(B)}&lt;/script&gt;
 
 &lt;hr /&gt;
 
 &lt;h3 id=&quot;section-2&quot;&gt;(3)全概率公式&lt;/h3&gt;
-&lt;p&gt;假设事件&lt;script type=&quot;math/tex&quot;&gt;$A&lt;/script&gt;$和&lt;script type=&quot;math/tex&quot;&gt;$A&#39;&lt;/script&gt;$共同构成了样本空间，那么就有
-&lt;script type=&quot;math/tex&quot;&gt;P(B)=P(B \cap A)+P(B \cap A&#39;)&lt;/script&gt;
-而通过上一节的推倒，我们有
-&lt;script type=&quot;math/tex&quot;&gt;P(B \cap A)=P(B|A)P(A)&lt;/script&gt;
-所以，
-&lt;script type=&quot;math/tex&quot;&gt;P(B)=P(B|A)P(A)+P(B|A&#39;)P(A&#39;)&lt;/script&gt;
-这就是全概率公式。&lt;/p&gt;
+&lt;p&gt;假设事件&lt;script type=&quot;math/tex&quot;&gt;A&lt;/script&gt;和&lt;script type=&quot;math/tex&quot;&gt;A&#39;&lt;/script&gt;共同构成了样本空间，那么就有&lt;/p&gt;
 
-&lt;p&gt;将这个公式带入上一节的条件概率公式，就得到条件概率的另一种写法：
-&lt;script type=&quot;math/tex&quot;&gt;P(A|B)={P(B|A)P(A)\over P(B|A)P(A)+P(B|A&#39;)P(A&#39;)}&lt;/script&gt;&lt;/p&gt;
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;P(B)=P(B \cap A)+P(B \cap A&#39;)&lt;/script&gt;
+
+&lt;p&gt;而通过上一节的推倒，我们有&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;P(B \cap A)=P(B|A)P(A)&lt;/script&gt;
+
+&lt;p&gt;所以，&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;P(B)=P(B|A)P(A)+P(B|A&#39;)P(A&#39;)&lt;/script&gt;
+
+&lt;p&gt;这就是全概率公式。&lt;/p&gt;
+
+&lt;p&gt;将这个公式带入上一节的条件概率公式，就得到条件概率的另一种写法：&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;P(A|B)={P(B|A)P(A)\over P(B|A)P(A)+P(B|A&#39;)P(A&#39;)}&lt;/script&gt;
 
 &lt;hr /&gt;
 

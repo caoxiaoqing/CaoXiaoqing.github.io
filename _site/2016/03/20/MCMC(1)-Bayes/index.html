@@ -34,6 +34,8 @@
 	<!-- <script type="text/javascript" src="http://apps.bdimg.com/libs/highlight.js/8.4/languages/dos.min.js"></script> -->
 	<script type="text/javascript" src="http://apps.bdimg.com/libs/highlight.js/8.4/highlight.min.js"></script>
 	<script>hljs.initHighlightingOnLoad();</script>
+	
+	<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
 	<!--script>
 	var _hmt = _hmt || [];
@@ -114,23 +116,30 @@
 <hr />
 
 <h3 id="section-1">(2)条件概率</h3>
-<p>由于<script type="math/tex">$P(A\cap B)=P(A|B)P(B)=P(B|A)P(A)</script>$，故而有条件概率公式:</p>
+<p>由于<script type="math/tex">P(A\cap B)=P(A|B)P(B)=P(B|A)P(A)</script>，故而有条件概率公式:</p>
 
 <script type="math/tex; mode=display">P(A|B)= {P(A\cap B)\over P(B)}={P(B|A)P(A)\over P(B)}</script>
 
 <hr />
 
 <h3 id="section-2">(3)全概率公式</h3>
-<p>假设事件<script type="math/tex">$A</script>$和<script type="math/tex">$A'</script>$共同构成了样本空间，那么就有
-<script type="math/tex">P(B)=P(B \cap A)+P(B \cap A')</script>
-而通过上一节的推倒，我们有
-<script type="math/tex">P(B \cap A)=P(B|A)P(A)</script>
-所以，
-<script type="math/tex">P(B)=P(B|A)P(A)+P(B|A')P(A')</script>
-这就是全概率公式。</p>
+<p>假设事件<script type="math/tex">A</script>和<script type="math/tex">A'</script>共同构成了样本空间，那么就有</p>
 
-<p>将这个公式带入上一节的条件概率公式，就得到条件概率的另一种写法：
-<script type="math/tex">P(A|B)={P(B|A)P(A)\over P(B|A)P(A)+P(B|A')P(A')}</script></p>
+<script type="math/tex; mode=display">P(B)=P(B \cap A)+P(B \cap A')</script>
+
+<p>而通过上一节的推倒，我们有</p>
+
+<script type="math/tex; mode=display">P(B \cap A)=P(B|A)P(A)</script>
+
+<p>所以，</p>
+
+<script type="math/tex; mode=display">P(B)=P(B|A)P(A)+P(B|A')P(A')</script>
+
+<p>这就是全概率公式。</p>
+
+<p>将这个公式带入上一节的条件概率公式，就得到条件概率的另一种写法：</p>
+
+<script type="math/tex; mode=display">P(A|B)={P(B|A)P(A)\over P(B|A)P(A)+P(B|A')P(A')}</script>
 
 <hr />
 
@@ -233,14 +242,4 @@
     });
   </script>
   </body>
-  
-  
-  <script type="text/javascript">window.MathJax = false;
-  </script>
-  <script type="text/x-mathjax-config"> 
-     MathJax.Hub.Config({tex2jax: {inlineMath: [["$","$"],["\"]]}});
-  </script>
-  <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML-full">MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
-  </script>
-  
 </html>
