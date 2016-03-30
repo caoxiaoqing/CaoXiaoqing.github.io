@@ -5,18 +5,17 @@
     <description>CXQ的博客 生活爱好者</description>
     <link>/</link>
     <atom:link href="/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sun, 27 Mar 2016 23:58:28 +0800</pubDate>
-    <lastBuildDate>Sun, 27 Mar 2016 23:58:28 +0800</lastBuildDate>
+    <pubDate>Wed, 30 Mar 2016 23:18:22 +0800</pubDate>
+    <lastBuildDate>Wed, 30 Mar 2016 23:18:22 +0800</lastBuildDate>
     <generator>Jekyll v3.1.2</generator>
     
       <item>
-        <title>MCMC方法(一):贝叶斯统计</title>
+        <title>MCMC方法(一):贝叶斯推断</title>
         <description>&lt;ul id=&quot;markdown-toc&quot;&gt;
   &lt;li&gt;&lt;a href=&quot;#section&quot; id=&quot;markdown-toc-section&quot;&gt;(1)贝叶斯统计简史&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;#section-1&quot; id=&quot;markdown-toc-section-1&quot;&gt;(2)条件概率&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#section-1&quot; id=&quot;markdown-toc-section-1&quot;&gt;(2)条件概率和贝叶斯公式&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;&lt;a href=&quot;#section-2&quot; id=&quot;markdown-toc-section-2&quot;&gt;(3)全概率公式&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;#section-3&quot; id=&quot;markdown-toc-section-3&quot;&gt;(4)贝叶斯定理&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;#section-4&quot; id=&quot;markdown-toc-section-4&quot;&gt;(5)贝叶斯推断&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#section-3&quot; id=&quot;markdown-toc-section-3&quot;&gt;(4)贝叶斯推断&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;h3 id=&quot;section&quot;&gt;(1)贝叶斯统计简史&lt;/h3&gt;
@@ -26,8 +25,8 @@
 
 &lt;hr /&gt;
 
-&lt;h3 id=&quot;section-1&quot;&gt;(2)条件概率&lt;/h3&gt;
-&lt;p&gt;由于&lt;script type=&quot;math/tex&quot;&gt;P(A\cap B)=P(A|B)P(B)=P(B|A)P(A)&lt;/script&gt;，故而有条件概率公式:&lt;/p&gt;
+&lt;h3 id=&quot;section-1&quot;&gt;(2)条件概率和贝叶斯公式&lt;/h3&gt;
+&lt;p&gt;由于&lt;script type=&quot;math/tex&quot;&gt;P(A\cap B)=P(A|B)P(B)=P(B|A)P(A)&lt;/script&gt;，故而有贝叶斯公式:&lt;/p&gt;
 
 &lt;script type=&quot;math/tex; mode=display&quot;&gt;P(A|B)= {P(A\cap B)\over P(B)}={P(B|A)P(A)\over P(B)}&lt;/script&gt;
 
@@ -48,17 +47,14 @@
 
 &lt;p&gt;这就是全概率公式。&lt;/p&gt;
 
-&lt;p&gt;将这个公式带入上一节的条件概率公式，就得到条件概率的另一种写法：&lt;/p&gt;
+&lt;p&gt;将这个公式带入上一节的贝叶斯公式，就得到贝叶斯公式的另一种写法：&lt;/p&gt;
 
 &lt;script type=&quot;math/tex; mode=display&quot;&gt;P(A|B)={P(B|A)P(A)\over P(B|A)P(A)+P(B|A&#39;)P(A&#39;)}&lt;/script&gt;
 
 &lt;hr /&gt;
 
-&lt;h3 id=&quot;section-3&quot;&gt;(4)贝叶斯定理&lt;/h3&gt;
-
-&lt;hr /&gt;
-
-&lt;h3 id=&quot;section-4&quot;&gt;(5)贝叶斯推断&lt;/h3&gt;
+&lt;h3 id=&quot;section-3&quot;&gt;(4)贝叶斯推断&lt;/h3&gt;
+&lt;p&gt;上面介绍的就是贝叶斯公式的最简单表达了，复杂的无非也就是求和换成积分，原理都是一样的。通常将&lt;script type=&quot;math/tex&quot;&gt;P(A|B)&lt;/script&gt;称为后验概率(posterior probability)，将&lt;script type=&quot;math/tex&quot;&gt;P(A)&lt;/script&gt;称为先验概率(prior probability)，将&lt;script type=&quot;math/tex&quot;&gt;P(B|A)P(B)&lt;/script&gt;称为可能性函数(likelyhood function)。&lt;/p&gt;
 
 &lt;hr /&gt;
 </description>

@@ -5,7 +5,7 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>MCMC方法(一):贝叶斯统计</title>
+	<title>MCMC方法(一):贝叶斯推断</title>
 	<meta name="description" content="MCMC方法介绍">
 	
 	<link rel="canonical" href="/2016/03/20/MCMC(1)-Bayes/">
@@ -95,17 +95,16 @@
   <div id="myArticle" class="col-sm-9">
     <div class="post-area post">
       <header>
-        <h1>MCMC方法(一):贝叶斯统计</h1>
+        <h1>MCMC方法(一):贝叶斯推断</h1>
         <p>Mar 20, 2016 • CaoXiaoqing</p>
       </header>
       <hr>
       <article>
         <ul id="markdown-toc">
   <li><a href="#section" id="markdown-toc-section">(1)贝叶斯统计简史</a></li>
-  <li><a href="#section-1" id="markdown-toc-section-1">(2)条件概率</a></li>
+  <li><a href="#section-1" id="markdown-toc-section-1">(2)条件概率和贝叶斯公式</a></li>
   <li><a href="#section-2" id="markdown-toc-section-2">(3)全概率公式</a></li>
-  <li><a href="#section-3" id="markdown-toc-section-3">(4)贝叶斯定理</a></li>
-  <li><a href="#section-4" id="markdown-toc-section-4">(5)贝叶斯推断</a></li>
+  <li><a href="#section-3" id="markdown-toc-section-3">(4)贝叶斯推断</a></li>
 </ul>
 
 <h3 id="section">(1)贝叶斯统计简史</h3>
@@ -115,8 +114,8 @@
 
 <hr />
 
-<h3 id="section-1">(2)条件概率</h3>
-<p>由于<script type="math/tex">P(A\cap B)=P(A|B)P(B)=P(B|A)P(A)</script>，故而有条件概率公式:</p>
+<h3 id="section-1">(2)条件概率和贝叶斯公式</h3>
+<p>由于<script type="math/tex">P(A\cap B)=P(A|B)P(B)=P(B|A)P(A)</script>，故而有贝叶斯公式:</p>
 
 <script type="math/tex; mode=display">P(A|B)= {P(A\cap B)\over P(B)}={P(B|A)P(A)\over P(B)}</script>
 
@@ -137,17 +136,14 @@
 
 <p>这就是全概率公式。</p>
 
-<p>将这个公式带入上一节的条件概率公式，就得到条件概率的另一种写法：</p>
+<p>将这个公式带入上一节的贝叶斯公式，就得到贝叶斯公式的另一种写法：</p>
 
 <script type="math/tex; mode=display">P(A|B)={P(B|A)P(A)\over P(B|A)P(A)+P(B|A')P(A')}</script>
 
 <hr />
 
-<h3 id="section-3">(4)贝叶斯定理</h3>
-
-<hr />
-
-<h3 id="section-4">(5)贝叶斯推断</h3>
+<h3 id="section-3">(4)贝叶斯推断</h3>
+<p>上面介绍的就是贝叶斯公式的最简单表达了，复杂的无非也就是求和换成积分，原理都是一样的。通常将<script type="math/tex">P(A|B)</script>称为后验概率(posterior probability)，将<script type="math/tex">P(A)</script>称为先验概率(prior probability)，将<script type="math/tex">P(B|A)P(B)</script>称为可能性函数(likelyhood function)。</p>
 
 <hr />
 
@@ -159,7 +155,7 @@
     <!--div class="post-area post comment"-->
       <!-- 多说评论框 start -->
       
-      <!--div class="ds-thread" data-thread-key="/2016/03/20/MCMC(1)-Bayes" data-title="MCMC方法(一):贝叶斯统计" data-url="caoxiaoqing.github.io/2016/03/20/MCMC(1)-Bayes/"></div-->
+      <!--div class="ds-thread" data-thread-key="/2016/03/20/MCMC(1)-Bayes" data-title="MCMC方法(一):贝叶斯推断" data-url="caoxiaoqing.github.io/2016/03/20/MCMC(1)-Bayes/"></div-->
       
       <!-- 多说评论框 end -->
     <!--/div-->
