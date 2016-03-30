@@ -18,7 +18,7 @@ excerpt: MCMC方法介绍
 ---
 
 ### (2)条件概率和贝叶斯公式
-由于$$P(A\cap B)=P(A|B)P(B)=P(B|A)P(A)$$，故而有贝叶斯公式:
+由条件概率公式$$P(A\cap B)=P(A|B)P(B)=P(B|A)P(A)$$，故而有贝叶斯公式:
 
 $$P(A|B)= {P(A\cap B)\over P(B)}={P(B|A)P(A)\over P(B)}$$
 

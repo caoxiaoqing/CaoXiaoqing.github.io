@@ -5,8 +5,8 @@
     <description>CXQ的博客 生活爱好者</description>
     <link>/</link>
     <atom:link href="/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Wed, 30 Mar 2016 23:18:22 +0800</pubDate>
-    <lastBuildDate>Wed, 30 Mar 2016 23:18:22 +0800</lastBuildDate>
+    <pubDate>Wed, 30 Mar 2016 23:22:01 +0800</pubDate>
+    <lastBuildDate>Wed, 30 Mar 2016 23:22:01 +0800</lastBuildDate>
     <generator>Jekyll v3.1.2</generator>
     
       <item>
@@ -26,7 +26,7 @@
 &lt;hr /&gt;
 
 &lt;h3 id=&quot;section-1&quot;&gt;(2)条件概率和贝叶斯公式&lt;/h3&gt;
-&lt;p&gt;由于&lt;script type=&quot;math/tex&quot;&gt;P(A\cap B)=P(A|B)P(B)=P(B|A)P(A)&lt;/script&gt;，故而有贝叶斯公式:&lt;/p&gt;
+&lt;p&gt;由条件概率公式&lt;script type=&quot;math/tex&quot;&gt;P(A\cap B)=P(A|B)P(B)=P(B|A)P(A)&lt;/script&gt;，故而有贝叶斯公式:&lt;/p&gt;
 
 &lt;script type=&quot;math/tex; mode=display&quot;&gt;P(A|B)= {P(A\cap B)\over P(B)}={P(B|A)P(A)\over P(B)}&lt;/script&gt;
 
