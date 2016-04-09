@@ -5,9 +5,47 @@
     <description>CXQ的博客 生活爱好者</description>
     <link>/</link>
     <atom:link href="/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Wed, 30 Mar 2016 23:22:01 +0800</pubDate>
-    <lastBuildDate>Wed, 30 Mar 2016 23:22:01 +0800</lastBuildDate>
+    <pubDate>Sat, 09 Apr 2016 20:41:16 +0800</pubDate>
+    <lastBuildDate>Sat, 09 Apr 2016 20:41:16 +0800</lastBuildDate>
     <generator>Jekyll v3.1.2</generator>
+    
+      <item>
+        <title>GitHub Pages上输出数学公式</title>
+        <description>
+&lt;p&gt;由于MathJax没有专门给Jekyll配备插件，所以，需要使用常规的JavaScript方法来调用。
+首先，在”head.html”这个文件的&lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;head&amp;gt;&lt;/code&gt;和&lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;/head&amp;gt;&lt;/code&gt;中添加JS链接：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;script type=&quot;text/javascript&quot;  
+src=&quot;http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML&quot;&amp;gt;
+&amp;lt;/script&amp;gt;  
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;其次，将Jekyll解析器改为Kramdown，以支持Latex标记。（在_config.yml文件中修改）
+如此，配置部分结束。
+文章撰写时，使用双$符号标记Latex语言。前后皆有双$。
+如果公式（包括双$）前后各有一个空行，则产生换行居中的公式。&lt;/p&gt;
+
+&lt;p&gt;比如如下代码&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$$\sum_{n=1}^{\infty}1/n^2=\frac{\pi^2}{6}$$
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;将产生的效果如下：&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\sum_{n=1}^{\infty}1/n^2=\frac{\pi^2}{6}&lt;/script&gt;
+
+&lt;p&gt;原文链接 &lt;a href=&quot;http://www.anaharb.com/2014/0215/Jekyll-MathJax/&quot;&gt;http://www.anaharb.com/2014/0215/Jekyll-MathJax/&lt;/a&gt;&lt;/p&gt;
+</description>
+        <pubDate>Sun, 20 Mar 2016 06:14:54 +0800</pubDate>
+        <link>/2016/03/20/GitHub-Pages%E4%B8%8A%E8%BE%93%E5%87%BA%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F/</link>
+        <guid isPermaLink="true">/2016/03/20/GitHub-Pages%E4%B8%8A%E8%BE%93%E5%87%BA%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F/</guid>
+        
+        
+        <category>HelloWorld</category>
+        
+      </item>
     
       <item>
         <title>MCMC方法(一):贝叶斯推断</title>
@@ -37,7 +75,7 @@
 
 &lt;script type=&quot;math/tex; mode=display&quot;&gt;P(B)=P(B \cap A)+P(B \cap A&#39;)&lt;/script&gt;
 
-&lt;p&gt;而通过上一节的推倒，我们有&lt;/p&gt;
+&lt;p&gt;而通过上一节的推导，我们有&lt;/p&gt;
 
 &lt;script type=&quot;math/tex; mode=display&quot;&gt;P(B \cap A)=P(B|A)P(A)&lt;/script&gt;
 
