@@ -1,7 +1,7 @@
 ---
 layout: post
-title:  "MCMC方法(一):贝叶斯推断"
-date:   2016-03-19 22:08:54
+title:  "MCMC方法(二):贝叶斯推断"
+date:   2017-12-18 22:08:54
 author: CaoXiaoqing
 categories: MCMC
 excerpt: MCMC方法介绍
