@@ -1,0 +1,37 @@
+# SVRG算法论文阅读笔记
+
+梯度下降对于样本数目比较多的时候有一个很大的劣势，那就是每次需要求解所有样本的梯度，样本数多的时候，导致计算量大增，所以实际生产环境中，往往采用随机梯度下降算法（Stochastic Gradient Descent），一般简写做SGD。
+
+SGD每次迭代的时候均匀随机得选择一个样本或者mini-batch做更新：
+
+相对于梯度下降，SGD的好处非常明显，就是可以减少每次更新的计算代价，但是SGD带来的问题是收敛速度不如梯度下降（收敛速度是衡量优化算法计算复杂度的基本工具，具体定义可以参考 [wiki/Rate_of_convergence](https://en.wikipedia.org/wiki/Rate_of_convergence) 或者其他优化相关的教材），也就是说为了达到同样的精度，SGD需要的总迭代次数要大于梯度下降，但是，单次迭代的计算量要小得多。从收敛速度分析上看，SGD能够在目标函数强凸并且递减步长的情况下做到 $O(1/T)$的次线性收敛（sublinear convergence），而梯度下降则可以在目标函数强凸的情况下做到$O(\rho^T) (\rho<1)$的线性收敛（linear convergence）。总结起来就是，如果想快速得到一个可以勉强接受的解，SGD比梯度下降更加合适，但是如果想得到一个精确度高的解，应当选择梯度下降。关于收敛速度可看[这里](https://zhuanlan.zhihu.com/p/27644403)。
+
+SGD后来后来也衍生出了非常多的变种，尤其是一类分析regret的online算法，包括Adagrad、Dual Averaging、FTRL等。但是，始终学术界对于SGD还有一种期待，就是：是否可以把SGD做到和梯度下降一样的线性收敛。直到2012和2013年，SAG[1]与SVRG[2]算法发表在NIPS上，**成为近几年SGD类算法的最大突破**。
+
+SAG
+
+SAG算法在内存中为每个样本都维护一个旧的梯度$y_i$，随机选择一个样本$i$来更新$d$来更新参数$x$。具体得说，更新的项![d](https://www.zhihu.com/equation?tex=d)来自于用新的梯度![f_i'(x)](https://www.zhihu.com/equation?tex=f_i%27%28x%29)替换掉![d](https://www.zhihu.com/equation?tex=d)中的旧梯度![y_i](https://www.zhihu.com/equation?tex=y_i)，这也就是![d = d - y_i + f_i'(x)](https://www.zhihu.com/equation?tex=d+%3D+d+-+y_i+%2B+f_i%27%28x%29)表达的意思。如此，每次更新的时候仅仅需要计算一个样本的梯度，而不是所有样本的梯度。计算开销与SGD无异，但是内存开销要大得多。[1]中已经证明SAG是一种线性收敛算法，这个速度远比SGD快。
+
+> Roux, Nicolas L., Mark Schmidt, and Francis R. Bach. "A stochastic gradient method with an exponential convergence rate for finite training sets." *Advances in Neural Information Processing Systems*. 2012. 
+
+> Schmidt, Mark, Nicolas Le Roux, and Francis Bach. "Minimizing finite sums with the stochastic average gradient." *arXiv preprint arXiv:1309.2388* (2013).
+
+
+
+SVRG
+
+SVRG的算法思路是，每过一段时间计算一次所有样本的梯度![\tilde{\mu}](https://www.zhihu.com/equation?tex=%5Ctilde%7B%5Cmu%7D)，每个阶段内部的单次更新采用![\triangledown \psi_{i_t} (w_{t-1}) - \triangledown \psi_{i_t} (\tilde{w}) + \tilde{\mu}](https://www.zhihu.com/equation?tex=%5Ctriangledown+%5Cpsi_%7Bi_t%7D+%28w_%7Bt-1%7D%29+-+%5Ctriangledown+%5Cpsi_%7Bi_t%7D+%28%5Ctilde%7Bw%7D%29+%2B+%5Ctilde%7B%5Cmu%7D)来更新当前参数，每次更新最多计算两次梯度。相对于SAG来说，不需要在内存中为每个样本都维护一个梯度，也就是说节省了内存资源。此外，SVRG中提出了一个非常重要的概念叫做variance reduction（方差缩减），这个概念需要联系SGD的收敛性分析来理解，在SGD的收敛性分析中需要假设样本梯度的的方差是有常数上界的，然而正是因为这个常数上界导致了SGD无法线性收敛，因此SVRG的收敛性分析中利用![\triangledown \psi_{i_t} (w_{t-1}) - \triangledown \psi_{i_t} (\tilde{w}) + \tilde{\mu}](https://www.zhihu.com/equation?tex=%5Ctriangledown+%5Cpsi_%7Bi_t%7D+%28w_%7Bt-1%7D%29+-+%5Ctriangledown+%5Cpsi_%7Bi_t%7D+%28%5Ctilde%7Bw%7D%29+%2B+%5Ctilde%7B%5Cmu%7D)这种特殊的更新项来让方差有一个可以不断减少的上界，因此也就做到了线性收敛，这一点就是SVRG的核心，SAG的策略其实也与此类似（虽然证明过程不同）。
+
+![img](https://pic3.zhimg.com/80/ce3d72bbf088fbca5b99e98aa26ef5ca_hd.jpg)
+
+上图为SVRG在凸的logistic regression上的表现，注意左一纵坐标是训练误差，左二左三纵坐标是对数坐标，实验中可以看出SVRG显然是线性收敛算法，相对于SGD有非常大的优势，和SDCA具备同阶的速度。
+
+![img](https://pic1.zhimg.com/80/88f8ef99bcc7d69c2100e3d2fef93cda_hd.jpg)
+
+上图为SVRG在非凸的神经网络（Neural Network或称作Deep Learning）上的表现（原文中是在单隐层神经网络上做的实验）。一定程度上说明，SVRG在NN上也可以发挥很好的作用。
+
+后来这类线性收敛的随机优化算法陆续出现了很多变种，比如SAGA算法[3]。
+
+[2]Johnson, Rie, and Tong Zhang. "Accelerating stochastic gradient descent using predictive variance reduction." *Advances in Neural Information Processing Systems*. 2013.
+
+[3]Defazio, Aaron, Francis Bach, and Simon Lacoste-Julien. "Saga: A fast incremental gradient method with support for non-strongly convex composite objectives." *Advances in Neural Information Processing Systems*. 2014.
