@@ -108,8 +108,11 @@
   <li><a href="#sag--10reference" id="markdown-toc-sag--10reference">3. SAG 算法 <a href="#Reference">[10]</a></a></li>
   <li><a href="#svrg--5reference" id="markdown-toc-svrg--5reference">4. SVRG 算法 <a href="#Reference">[5]</a></a></li>
   <li><a href="#saga--6reference" id="markdown-toc-saga--6reference">5. SAGA 算法 <a href="#Reference">[6]</a></a></li>
-  <li><a href="#scsg--8reference" id="markdown-toc-scsg--8reference">6. SCSG 算法 <a href="#Reference">[8]</a></a></li>
-  <li><a href="#section-1" id="markdown-toc-section-1">7. 应用于在线学习</a></li>
+  <li><a href="#scsg--8reference" id="markdown-toc-scsg--8reference">6. SCSG 算法 <a href="#Reference">[8]</a></a>    <ul>
+      <li><a href="#section-1" id="markdown-toc-section-1">7. 其它方法</a></li>
+    </ul>
+  </li>
+  <li><a href="#section-2" id="markdown-toc-section-2">8. 应用于在线学习</a></li>
   <li><a href="#reference" id="markdown-toc-reference">Reference</a></li>
 </ul>
 
@@ -168,7 +171,7 @@ y_i^{k}=\left\{
 
 <h2 id="svrg--5reference">4. SVRG 算法 <a href="#Reference">[5]</a></h2>
 
-<p>因为 SAG 算法需要保存所有样本的梯度值，在实际的大规模工业应用中并不实用，因此就有来 SVRG 算法。</p>
+<p>因为 SAG 算法需要保存所有样本的梯度值，在实际的大规模工业应用中并不实用，因此就有了 SVRG 算法。</p>
 
 <p><strong>SVRG 算法的迭代过程</strong> (图片来自文章 <a href="#Reference">[4]</a>)</p>
 
@@ -182,8 +185,6 @@ y_i^{k}=\left\{
 
 <p>SVRG 算法的问题是虽然不用存储所有样本的梯度了，但是计算量上去了，因为它在每次的大迭代里面还有一轮小迭代，每次都要算两遍梯度，整体的计算量已经和 GD 一样了，而且还多一个超参数 <script type="math/tex">m</script> 要调。</p>
 
-<p>SDCA <a href="#Reference">[7]</a></p>
-
 <h2 id="saga--6reference">5. SAGA 算法 <a href="#Reference">[6]</a></h2>
 
 <p>SAGA 算法其实是介于 SAG 和 SVRG 之间的一种算法，但作者声称在强凸的条件下其收敛速度要快于 SAG 和 SVRG，且两倍于 SDCA，并同时适用于非强凸的情形。</p>
@@ -196,7 +197,7 @@ y_i^{k}=\left\{
 
 <script type="math/tex; mode=display">\tilde g_k \, \leftarrow \, \nabla f_{i_k}(w_k) - \nabla f_{i_k}(w_{k-1}) + \nabla R_n(w_{k-1})</script>
 
-<p>会发现，相比于 SAG 算法，SAGA 算法只是把前面的一个 <script type="math/tex">1/n​</script> 去掉了，使得对梯度的估计变成无偏的了，当然同时它的方差相比于 SAG 也大了 <script type="math/tex">n^2​</script>。</p>
+<p>会发现，相比于 SAG 算法，SAGA 算法只是把前面的一个 <script type="math/tex">1/n</script> 去掉了，使得对梯度的估计变成无偏的了，当然同时它的方差相比于 SAG 也大了 <script type="math/tex">n^2</script>。</p>
 
 <h2 id="scsg--8reference">6. SCSG 算法 <a href="#Reference">[8]</a></h2>
 
@@ -213,7 +214,17 @@ y_i^{k}=\left\{
 
 <p>然而，这样的改变之后，新算法的计算成本成为了 <script type="math/tex">O((B+N)T)</script>。也就是说，这是一个不依赖全局数据量大小的数值。而通过分析，作者们也比较了 SCSG 的通讯成本和一些原本就为了通讯成本而设计的算法，在很多情况下，SCSG 的通讯成本更优。通过 MNIST 数据集的实验发现，SCSG 达到相同的准确度，需要比 SVRG 更少的轮数，和每一轮更少的数据。可以说，这个算法可能会成为 SVRG 的简单替代。</p>
 
-<h2 id="section-1">7. 应用于在线学习</h2>
+<h3 id="section-1">7. 其它方法</h3>
+
+<p>S2GD(Semi-Stochastic Gradient Descent Methods)</p>
+
+<p>Mini-Batch Semi-Stochastic Gradient Descent in the Proximal Setting. 将S2GD扩展到mini-batch上，因此允许并行运行，但是需要更多的同步，只能允许小的batch</p>
+
+<p>SDCA(Stochastic dual coordinate ascent methods for regularized loss) <a href="#Reference">[7]</a></p>
+
+<p>Finito(Finito: A faster, permutable incremental gradientmethod for big data problems)</p>
+
+<h2 id="section-2">8. 应用于在线学习</h2>
 
 <p>online-SVRG</p>
 
