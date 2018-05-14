@@ -5,8 +5,8 @@
     <description>曹孝卿的博客 生活爱好者</description>
     <link>/</link>
     <atom:link href="/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Mon, 14 May 2018 14:34:16 +0800</pubDate>
-    <lastBuildDate>Mon, 14 May 2018 14:34:16 +0800</lastBuildDate>
+    <pubDate>Mon, 14 May 2018 14:35:45 +0800</pubDate>
+    <lastBuildDate>Mon, 14 May 2018 14:35:45 +0800</lastBuildDate>
     <generator>Jekyll v3.1.2</generator>
     
       <item>
@@ -19,10 +19,8 @@
   &lt;li&gt;&lt;a href=&quot;#sag--10reference&quot; id=&quot;markdown-toc-sag--10reference&quot;&gt;3. SAG 算法 &lt;a href=&quot;#Reference&quot;&gt;[10]&lt;/a&gt;&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;&lt;a href=&quot;#svrg--5reference&quot; id=&quot;markdown-toc-svrg--5reference&quot;&gt;4. SVRG 算法 &lt;a href=&quot;#Reference&quot;&gt;[5]&lt;/a&gt;&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;&lt;a href=&quot;#saga--6reference&quot; id=&quot;markdown-toc-saga--6reference&quot;&gt;5. SAGA 算法 &lt;a href=&quot;#Reference&quot;&gt;[6]&lt;/a&gt;&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;#scsg--8reference&quot; id=&quot;markdown-toc-scsg--8reference&quot;&gt;6. SCSG 算法 &lt;a href=&quot;#Reference&quot;&gt;[8]&lt;/a&gt;&lt;/a&gt;    &lt;ul&gt;
-      &lt;li&gt;&lt;a href=&quot;#section-1&quot; id=&quot;markdown-toc-section-1&quot;&gt;7. 其它方法&lt;/a&gt;&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#scsg--8reference&quot; id=&quot;markdown-toc-scsg--8reference&quot;&gt;6. SCSG 算法 &lt;a href=&quot;#Reference&quot;&gt;[8]&lt;/a&gt;&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#section-1&quot; id=&quot;markdown-toc-section-1&quot;&gt;7. 其它方法&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;&lt;a href=&quot;#section-2&quot; id=&quot;markdown-toc-section-2&quot;&gt;8. 应用于在线学习&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;&lt;a href=&quot;#reference&quot; id=&quot;markdown-toc-reference&quot;&gt;Reference&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
@@ -125,7 +123,7 @@ y_i^{k}=\left\{
 
 &lt;p&gt;然而，这样的改变之后，新算法的计算成本成为了 &lt;script type=&quot;math/tex&quot;&gt;O((B+N)T)&lt;/script&gt;。也就是说，这是一个不依赖全局数据量大小的数值。而通过分析，作者们也比较了 SCSG 的通讯成本和一些原本就为了通讯成本而设计的算法，在很多情况下，SCSG 的通讯成本更优。通过 MNIST 数据集的实验发现，SCSG 达到相同的准确度，需要比 SVRG 更少的轮数，和每一轮更少的数据。可以说，这个算法可能会成为 SVRG 的简单替代。&lt;/p&gt;
 
-&lt;h3 id=&quot;section-1&quot;&gt;7. 其它方法&lt;/h3&gt;
+&lt;h2 id=&quot;section-1&quot;&gt;7. 其它方法&lt;/h2&gt;
 
 &lt;p&gt;S2GD(Semi-Stochastic Gradient Descent Methods)&lt;/p&gt;
 

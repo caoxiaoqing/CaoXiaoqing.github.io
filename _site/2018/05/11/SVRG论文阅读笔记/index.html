@@ -108,10 +108,8 @@
   <li><a href="#sag--10reference" id="markdown-toc-sag--10reference">3. SAG 算法 <a href="#Reference">[10]</a></a></li>
   <li><a href="#svrg--5reference" id="markdown-toc-svrg--5reference">4. SVRG 算法 <a href="#Reference">[5]</a></a></li>
   <li><a href="#saga--6reference" id="markdown-toc-saga--6reference">5. SAGA 算法 <a href="#Reference">[6]</a></a></li>
-  <li><a href="#scsg--8reference" id="markdown-toc-scsg--8reference">6. SCSG 算法 <a href="#Reference">[8]</a></a>    <ul>
-      <li><a href="#section-1" id="markdown-toc-section-1">7. 其它方法</a></li>
-    </ul>
-  </li>
+  <li><a href="#scsg--8reference" id="markdown-toc-scsg--8reference">6. SCSG 算法 <a href="#Reference">[8]</a></a></li>
+  <li><a href="#section-1" id="markdown-toc-section-1">7. 其它方法</a></li>
   <li><a href="#section-2" id="markdown-toc-section-2">8. 应用于在线学习</a></li>
   <li><a href="#reference" id="markdown-toc-reference">Reference</a></li>
 </ul>
@@ -214,7 +212,7 @@ y_i^{k}=\left\{
 
 <p>然而，这样的改变之后，新算法的计算成本成为了 <script type="math/tex">O((B+N)T)</script>。也就是说，这是一个不依赖全局数据量大小的数值。而通过分析，作者们也比较了 SCSG 的通讯成本和一些原本就为了通讯成本而设计的算法，在很多情况下，SCSG 的通讯成本更优。通过 MNIST 数据集的实验发现，SCSG 达到相同的准确度，需要比 SVRG 更少的轮数，和每一轮更少的数据。可以说，这个算法可能会成为 SVRG 的简单替代。</p>
 
-<h3 id="section-1">7. 其它方法</h3>
+<h2 id="section-1">7. 其它方法</h2>
 
 <p>S2GD(Semi-Stochastic Gradient Descent Methods)</p>
 
