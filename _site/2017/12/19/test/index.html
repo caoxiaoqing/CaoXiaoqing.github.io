@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>矩阵求导</title>
+	<meta name="description" content="矩阵求导方法介绍">
+	
+	<link rel="canonical" href="/2017/12/19/test/">
+	<link rel="alternate" type="application/rss+xml" title="CaoXiaoqing's Blog" href="/feed.xml" />
+	
+	<!-- <link rel="stylesheet" href="/css/main.css"> -->
+
+	<link rel="stylesheet" type="text/css" href="http://apps.bdimg.com/libs/bootstrap/3.3.0/css/bootstrap.min.css">
+	<!-- <link rel="stylesheet" type="text/css" href="http://apps.bdimg.com/libs/fontawesome/4.2.0/css/font-awesome.min.css"> -->
+	<!-- <link rel="stylesheet" type="text/css" href="/static/css/bootstrap.min.css"> -->
+	
+
+	<link rel="stylesheet" type="text/css" href="/static/css/index.css">
+	
+	<!-- <script type="text/javascript" src="/static/js/jquery-1.11.1.min.js"></script>
+	<script type="text/javascript" src="/static/js/bootstrap.min.js"></script> -->
+
+	<script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/2.1.1/jquery.min.js"></script>
+	<script type="text/javascript" src="http://apps.bdimg.com/libs/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+
+	<script type="text/javascript" src="/static/js/index.js"></script>
+	
+	<link rel="stylesheet" type="text/css" href="http://apps.bdimg.com/libs/highlight.js/8.4/styles/monokai_sublime.min.css">
+	<!-- <link rel="stylesheet" type="text/css" href="http://apps.bdimg.com/libs/highlight.js/8.4/styles/railscasts.min.css"> -->
+	<!-- <link rel="stylesheet" type="text/css" href="http://apps.bdimg.com/libs/highlight.js/8.4/styles/monokai.min.css"> -->
+	<!-- <script type="text/javascript" src="http://apps.bdimg.com/libs/highlight.js/8.4/languages/dos.min.js"></script> -->
+	<script type="text/javascript" src="http://apps.bdimg.com/libs/highlight.js/8.4/highlight.min.js"></script>
+	<script>hljs.initHighlightingOnLoad();</script>
+	
+	<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+	<!--script>
+	var _hmt = _hmt || [];
+	(function() {
+	  var hm = document.createElement("script");
+	  hm.src = "//hm.baidu.com/hm.js?b636473d6ffa17615f94e5db1459ea81";
+	  var s = document.getElementsByTagName("script")[0]; 
+	  s.parentNode.insertBefore(hm, s);
+	})();
+	</script-->
+
+</head>
+
+ <!--  <body data-spy="scroll" data-target="#myAffix"> -->
+  <body>
+
+    <header>
+
+<!-- navbar -->
+  <nav class="navbar navbar-inverse">
+  <div class="container">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/">CaoXiaoqing's Blog</a>
+      <p class="navbar-text">Free Your Mind</p>
+    </div>
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav navbar-right">
+
+        
+          <li>
+        
+          <a href="/"><span class="glyphicon glyphicon-th-large"></span> Home</a></li>
+
+        
+          
+        
+          
+        
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+
+</header>
+
+
+    <div id="main" class="container main">
+      <div class="row">
+  <div id="myArticle" class="col-sm-9">
+    <div class="post-area post">
+      <header>
+        <h1>矩阵求导</h1>
+        <p>Dec 19, 2017 • CaoXiaoqing</p>
+      </header>
+      <hr>
+      <article>
+        <ul id="markdown-toc">
+  <li><a href="#section" id="markdown-toc-section">1 摘要</a></li>
+  <li><a href="#section-1" id="markdown-toc-section-1">2 标量对矩阵的求导</a></li>
+  <li><a href="#section-2" id="markdown-toc-section-2">3 矩阵对矩阵的求导</a></li>
+  <li><a href="#section-3" id="markdown-toc-section-3">4 反向传播算法的完整向量形式推导</a></li>
+</ul>
+
+<h2 id="section">1 摘要</h2>
+
+<p>矩阵求导的技术，在统计学、控制论、机器学习等领域有广泛的应用。鉴于我看过的一些资料或言之不详、或繁乱无绪，本文来做个科普，分作两部分，第一部分讲标量对矩阵的求导术，第二部分讲矩阵对矩阵的求导术。本文使用小写字母 $x$ 表示标量，粗体小写字母 $\vec{x}$ 表示向量，大写字母 $\vec{X}$ 表示矩阵。本文第一部分标量对矩阵的求导整理自：https://zhuanlan.zhihu.com/p/24709748，本文第二部分矩阵对矩阵的求导整理自：https://zhuanlan.zhihu.com/p/24863977</p>
+
+<h2 id="section-1">2 标量对矩阵的求导</h2>
+
+<p>首先来琢磨一下定义，标量 $f$ 对矩阵 $\vec{X}$ 的导数，定义为
+<script type="math/tex">\frac{\partial f}{\partial \vec{X}} = \left[\frac{\partial f }{\partial \vec{X}_{ij}}\right].</script>
+即 $f$ 对 $\vec{X}$ 逐元素求导排成与 $\vec{X}$ 尺寸相同的矩阵。然而，这个定义在计算中并不好用，实用上的原因是在对较复杂的函数难以逐元素求导；哲理上的原因是逐元素求导破坏了整体性。试想，为何要将 $f$ 看做矩阵 $\vec{X}$ 而不是各元素 $\vec{X}_{ij}$ 的函数呢？答案是用矩阵运算更整洁。所以在求导时不宜拆开矩阵，而是要找一个从整体出发的算法。为此，我们来回顾，一元微积分中的导数（标量对标量的导数）与微分有联系：
+<script type="math/tex">\mathrm{d}f = f'(x)\mathrm{d}x.</script>
+多元微积分中的梯度（标量对向量的导数）也与微分有联系：</p>
+
+<script type="math/tex; mode=display">\begin{equation}
+  \mathrm{d}f = \sum_{i} \frac{\partial f}{\partial x_i}\mathrm{d}x_i = \frac{\partial f}{\partial \vec{x}}^T \mathrm{d}\vec{x}.
+\end{equation}</script>
+
+<p>这里第一个等号是全微分公式，第二个等号表达了梯度 $\frac{\partial f}{\partial \vec{x}}$ 与微分的联系。受此启发，我们将矩阵导数与微分建立联系：
+<script type="math/tex">\begin{equation}
+  \mathrm{d}f = \sum_{i,j} \frac{\partial f}{\partial \vec{X}{ij}}\mathrm{d}\vec{X}_{ij} = \mathrm{tr}\left(\frac{\partial f}{\partial \vec{X}}^T \mathrm{d}\vec{X}\right).
+\end{equation}</script>
+这里 $\mathrm{tr}$ 代表迹(trace)是方阵对角线元素之和，满足性质：对尺寸相同的矩阵 $\vec{A}, \vec{B}$，有 $\mathrm{tr}(\vec{A}^T\vec{B}) = \sum_{i,j}\vec{A}<em>{ij}\vec{B}</em>{ij}$，即 $\mathrm{tr}(\vec{A}^T\vec{B})$ 是矩阵 $\vec{A}, \vec{B}$ 的内积，因此上式与原定义相容。</p>
+
+<p>然后来建立运算法则。回想遇到较复杂的一元函数如 $f = \log(2+\sin x)e^{\sqrt{x}}$，我们是如何求导的呢？通常不是从定义开始求极限，而是先建立了初等函数求导和四则运算、复合等法则，再来运用这些法则。故而，我们来创立常用的矩阵微分的运算法则：</p>
+
+<ul>
+  <li>加减法：$\mathrm{d}(\vec{X} \pm \vec{Y}) = \mathrm{d}\vec{X} \pm \mathrm{d}\vec{Y}$；</li>
+  <li>矩阵乘法：$\mathrm{d}(\vec{X}\vec{Y}) = \mathrm{d}\vec{X}\vec{Y} + \vec{X}\mathrm{d}\vec{Y}$；</li>
+  <li>转置：$\mathrm{d}(\vec{X}^T) = (\mathrm{d}\vec{X})^T$；</li>
+  <li>迹：$\mathrm{d}\mathrm{tr}(\vec{X}) = \mathrm{tr}(\mathrm{d}\vec{X})$；</li>
+  <li>逆：$\mathrm{d}\vec{X}^{-1} = -\vec{X}^{-1}\mathrm{d}\vec{X}\vec{X}^{-1}$，此式可在 $\vec{X}\vec{X}^{-1}=\vec{I}$ 两侧求微分来证明；</li>
+  <li>
+    <table>
+      <tbody>
+        <tr>
+          <td>行列式：$\mathrm{d}</td>
+          <td>\vec{X}</td>
+          <td>= \mathrm{tr}(\vec{X}^{#}\mathrm{d}\vec{X})$，其中 $\vec{X}^{#}$ 表示 $\vec{X}$ 的伴随矩阵，在 $\vec{X}$ 可逆时又可以写作 $\mathrm{d}</td>
+          <td>\vec{X}</td>
+          <td>=</td>
+          <td>\vec{X}</td>
+          <td>\mathrm{tr}(\vec{X}^{-1}\mathrm{d}\vec{X})$，此式可用Laplace展开来证明，详见张贤达《矩阵分析与应用》第279页；</td>
+        </tr>
+      </tbody>
+    </table>
+  </li>
+  <li>逐元素乘法：$\mathrm{d}(\vec{X}\odot \vec{Y}) = \mathrm{d}\vec{X}\odot \vec{Y} + \vec{X}\odot \mathrm{d}\vec{Y}$，$\odot$ 表示尺寸相同的矩阵 $\vec{X},\vec{Y}$ 逐元素相乘；</li>
+  <li>逐元素函数：$\mathrm{d}\sigma(\vec{X}) = \sigma’(\vec{X})\odot \mathrm{d}\vec{X}$，$\sigma(\vec{X}) = \left[\sigma(\vec{X}_{ij})\right]$ 是逐元素运算的标量函数。</li>
+</ul>
+
+<p>我们试图利用矩阵导数与微分的联系 $\mathrm{d}f = \mathrm{tr}\left(\frac{\partial f}{\partial \vec{X}}^T \mathrm{d}\vec{X}\right)$，在求出左侧的微分 $\mathrm{d}f$ 后，该如何写成右侧的形式并得到导数呢？这需要一些迹技巧(trace trick)：</p>
+
+<ul>
+  <li>标量套上迹：$a = \mathrm{tr}(a)$；</li>
+  <li>转置：$\mathrm{tr}(\vec{A}^T) = \mathrm{tr}(\vec{A})$；</li>
+  <li>线性：$\mathrm{tr}(\vec{A}\pm \vec{B}) = \mathrm{tr}(\vec{A})\pm \mathrm{tr}(\vec{B})$；</li>
+  <li>矩阵乘法交换：$\mathrm{tr}(\vec{AB}) = \mathrm{tr}(\vec{BA})$，两侧都等于 $\sum_{i,j}\vec{A}<em>{ij}\vec{B}</em>{ji}$；</li>
+  <li>矩阵乘法/逐元素乘法交换：$\mathrm{tr}(\vec{A}^T(\vec{B}\odot \vec{C})) = \mathrm{tr}((\vec{A}\odot \vec{B})^T\vec{C})$，两侧都等于 $\sum_{i,j}\vec{A}<em>{ij}\vec{B}</em>{ij}\vec{C}_{ij}$。</li>
+</ul>
+
+<p>观察一下可以断言，若标量函数 $f$ 是矩阵 $\vec{X}$ 经加减乘法、行列式、逆、逐元素函数等运算构成，则使用相应的运算法则对 $f$ 求微分，再使用迹技巧给 $\mathrm{d}f$ 套上迹并将其它项交换至 $\mathrm{d}\vec{X}$ 左侧，即能得到导数。</p>
+
+<p>在建立法则的最后，来谈一谈复合：假设已求得 $\frac{\partial f}{\partial \vec{Y}}$，而 $\vec{Y}$ 是 $\vec{X}$ 的函数，如何求 $\frac{\partial f}{\partial \vec{X}}$ 呢？在微积分中有标量求导的链式法则 $\frac{\partial f}{\partial x} = \frac{\partial f}{\partial y} \frac{\partial y}{\partial x}$，但这里我们不能沿用链式法则，因为矩阵对矩阵的导数 $\frac{\partial \vec{Y}}{\partial \vec{X}}$ 截至目前仍是未定义的。于是我们继续追本溯源，链式法则是从何而来？源头仍然是微分。我们直接从微分入手建立复合法则：先写出 $\mathrm{d}f = \mathrm{tr}\left(\frac{\partial f}{\partial \vec{Y}}^T \mathrm{d}\vec{Y}\right)$，再将 $\mathrm{d}\mathbf{Y}$ 用 $\mathrm{d}\vec{X}$ 表示出来代入，并使用迹技巧将其他项交换至 $\mathrm{d}\vec{X}$ 左侧，即可得到 $\frac{\partial f}{\partial \vec{X}}$。</p>
+
+<p>接下来演示一些算例。特别提醒要依据已经建立的运算法则来计算，不能随意套用微积分中标量导数的结论，比如认为 $\vec{A}\vec{X}$ 对 $\vec{X}$ 的导数为 $\vec{A}$，这是没有根据、意义不明的。</p>
+
+<p><strong>例1</strong>：$f = \vec{a}^T \vec{X}\vec{b}$，求 $\frac{\partial f}{\partial \vec{X}}$。</p>
+
+<p>解：先使用矩阵乘法法则求微分：$\mathrm{d}f = \vec{a}^T \mathrm{d}\vec{X}\vec{b}$，再套上迹并做交换：$\mathrm{d}f = \mathrm{tr}(\vec{a}^T\mathrm{d}\vec{X}\vec{b}) = \mathrm{tr}(\vec{b}\vec{a}^T\mathrm{d}\vec{X})$，对照导数与微分的联系，得到 $\frac{\partial f}{\partial \vec{X}} = \vec{a}\vec{b}^T$。</p>
+
+<p>注意：这里不能用 $\frac{\partial f}{\partial \vec{X}} =\vec{a}^T \frac{\partial \vec{X}}{\partial \vec{X}}\vec{b}=?$，导数与乘常数矩阵的交换是不合法则的运算（而微分是合法的）。有些资料在计算矩阵导数时，会略过求微分这一步，这是逻辑上解释不通的。</p>
+
+<p><strong>例2【线性回归】</strong>：$l = |\vec{X}\vec{w}- \vec{y}|^2$，求 $\frac{\partial l}{\partial \vec{w}}$。</p>
+
+<p>解：严格来说这是标量对向量的导数，不过可以把向量看做矩阵的特例。将向量范数写成 $l = (\vec{X}\vec{w}- \vec{y})^T(\vec{X}\vec{w}- \vec{y})$，求微分，使用矩阵乘法、转置等法则：$\mathrm{d}l = (\vec{X}\mathrm{d}\vec{w})^T(\vec{X}\vec{w}-\vec{y})+(\vec{X}\vec{w}-\vec{y})^T(\vec{X}\mathrm{d}\vec{w}) = 2(\vec{X}\vec{w}-\vec{y})^T\vec{X}\mathrm{d}\vec{w}$。 对照导数与微分的联系，得到 $\frac{\partial l}{\partial \vec{w}}= 2\vec{X}^T(\vec{X}\vec{w}-\vec{y})$。</p>
+
+<p><strong>例3【多元 logistic 回归】</strong>：$l = -\vec{y}^T\log \mathrm{softmax}(\vec{Wx})$，求 $\frac{\partial l}{\partial \vec{W}}$。其中 $\vec{y}$ 是除一个元素为 1 外其它元素为 0 的向量；$\mathrm{softmax}(\vec{a}) = \frac{\exp(\vec{a})}{\vec{1}^T\exp(\vec{a})}$，其中 $\exp(\vec{a})$ 表示逐元素求指数，$\vec{1}$ 代表全 1 向量。</p>
+
+<p>解：首先将 softmax 函数代入并写成 $l = -\vec{y}^T \left(\log (\exp(\vec{Wx}))-\vec{1}\log(\vec{1}^T\exp(\vec{Wx}))\right) = -\vec{y}^T\vec{Wx} + \log(\vec{1}^T\exp(\vec{Wx}))$，这里要注意逐元素 $\log$ 满足等式 $\log(\vec{u}/c) = \log(\vec{u}) - \vec{1}\log(c)$，以及 $\vec{y}$ 满足 $\vec{y}^T \vec{1} = 1$。求微分，使用矩阵乘法、逐元素函数等法则：$\mathrm{d}l = -\vec{y}^T\mathrm{d}\vec{Wx}+\frac{\vec{1}^T\left(\exp(\vec{Wx})\odot(\mathrm{d}\vec{Wx})\right)}{\vec{1}^T\exp(\vec{Wx})}$。
+再套上迹并做交换，注意可化简 $\vec{1}^T\left(\exp(\vec{Wx})\odot(\mathrm{d}\vec{Wx})\right) = \exp(\vec{Wx})^T\mathrm{d}\vec{Wx}$，这是根据等式 $\vec{1}^T (\vec{u}\odot \vec{v}) = \vec{u}^T \vec{v}$，故 $\mathrm{d}l = \mathrm{tr}\left(-\vec{y}^T\mathrm{d}\vec{Wx}+\frac{\exp(\vec{Wx})^T\mathrm{d}\vec{Wx}}{\vec{1}^T\exp(\vec{Wx})}\right) =\mathrm{tr}(\vec{x}(\mathrm{softmax}(\vec{Wx})-\vec{y})^T\mathrm{d}\vec{W})$。对照导数与微分的联系，得到 $\frac{\partial l}{\partial \vec{W}}= (\mathrm{softmax}(\vec{Wx})-\vec{y})\vec{x}^T$。</p>
+
+<p><strong>另解</strong>：定义 $\vec{a} = \vec{Wx}$，则 $l = -\vec{y}^T\log\mathrm{softmax}(\vec{a})$，先如上求出 $\frac{\partial l}{\partial \vec{a}} = \mathrm{softmax}(\vec{a})-\vec{y}$，再利用复合法则：$\mathrm{d}l = \mathrm{tr}\left(\frac{\partial l}{\partial \vec{a}}^T\mathrm{d}\vec{a}\right) = \mathrm{tr}\left(\frac{\partial l}{\partial \vec{a}}^T\mathrm{d}\vec{Wx}\right) = \mathrm{tr}\left(\vec{x}\frac{\partial l}{\partial \vec{a}}^T\mathrm{d}\vec{W}\right)$，得到 $\frac{\partial l}{\partial \vec{W}}= \frac{\partial l}{\partial\vec{a}}\vec{x}^T$。</p>
+
+<table>
+  <tbody>
+    <tr>
+      <td><strong>例4【方差的最大似然估计】</strong>：样本 $\vec{x}_1,\dots, \vec{x}_n\sim N(\vec{\mu}, \Sigma)$，其中 $\Sigma$ 是对称正定矩阵，求方差 $\Sigma$ 的最大似然估计。写成数学式是：$l = \log</td>
+      <td>\Sigma</td>
+      <td>+\frac{1}{n}\sum_{i=1}^n(\vec{x}_i-\vec{\bar{x}})^T\Sigma^{-1}(\vec{x}_i-\vec{\bar{x}})$，求 $\frac{\partial l }{\partial \Sigma}$ 的零点。</td>
+    </tr>
+  </tbody>
+</table>
+
+<table>
+  <tbody>
+    <tr>
+      <td>解：首先求微分，使用矩阵乘法、行列式、逆等运算法则，第一项是 $\mathrm{d}\log</td>
+      <td>\Sigma</td>
+      <td>=</td>
+      <td>\Sigma</td>
+      <td>^{-1}\mathrm{d}</td>
+      <td>\Sigma</td>
+      <td>= \mathrm{tr}(\Sigma^{-1}\mathrm{d}\Sigma)$，第二项是 $\frac{1}{n}\sum_{i=1}^n(\vec{x}<em>i-\vec{\bar{x}})^T\mathrm{d}\Sigma^{-1}(\vec{x}_i-\vec{\bar{x}}) = -\frac{1}{n}\sum</em>{i=1}^n(\vec{x}<em>i-\vec{\bar{x}})^T\Sigma^{-1}\mathrm{d}\Sigma\Sigma^{-1}(\vec{x}_i-\vec{\bar{x}})$。再给第二项套上迹做交换：$\mathrm{d}l = \mathrm{tr}\left(\left(\Sigma^{-1}-\Sigma^{-1}\vec{S}\Sigma^{-1}\right)\mathrm{d}\Sigma\right)$，其中 $\vec{S} = \frac{1}{n}\sum</em>{i=1}^n(\vec{x}_i-\vec{\bar{x}})(\vec{x}_i-\vec{\bar{x}})^T$  定义为样本方差。对照导数与微分的联系，有 $\frac{\partial l }{\partial \Sigma}=(\Sigma^{-1}-\Sigma^{-1}\vec{S}\Sigma^{-1})^T$，其零点即 $\Sigma$ 的最大似然估计为 $\Sigma = \vec{S}$。</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>最后一例留给经典的神经网络。神经网络的求导术是学术史上的重要成果，还有个专门的名字叫做 BP 算法，我相信如今很多人在初次推导 BP 算法时也会颇费一番脑筋，事实上使用矩阵求导术来推导并不复杂。为简化起见，我们推导二层神经网络的 BP 算法。</p>
+
+<p><strong>例5【二层神经网络】</strong>：$l = -\vec{y}^T\log\mathrm{softmax}(\vec{W}_2\sigma(\vec{W}_1\vec{x}))$，求 $\frac{\partial l}{\partial \vec{W}_1}$ 和 $\frac{\partial l}{\partial \vec{W}_2}$。其中 $\vec{y}$ 是除一个元素为 $1$ 外其它元素为 $0$ 的向量，$\mathrm{softmax}(\vec{a}) = \frac{\exp(\vec{a})}{\vec{1}^T\exp(\vec{a})}$ 同例 3，$\sigma(\cdot)$ 是逐元素 sigmoid 函数 $\sigma(a) = \frac{1}{1+\exp(-a)}$。</p>
+
+<p>解：定义 $\vec{a}_1=\vec{W}_1\vec{x}$，$\vec{h}_1 = \sigma(\vec{a}_1)$，$\vec{a}_2 = \vec{W}_2 \vec{h}_1$，则 $l =-\vec{y}^T\log\mathrm{softmax}(\vec{a}_2)$。 在例 3 中已求出 $\frac{\partial l}{\partial \vec{a}_2} = \mathrm{softmax}(\vec{a}_2)-\vec{y}$。使用复合法则，注意此处 $\vec{h}_1, \vec{W}_2$ 都是变量：$\mathrm{d}l = \mathrm{tr}\left(\frac{\partial l}{\partial \vec{a}_2}^T\mathrm{d}\vec{a}_2\right) = \mathrm{tr}\left(\frac{\partial l}{\partial \vec{a}_2}^T\mathrm{d}\vec{W}_2 \vec{h}_1\right) + \mathrm{tr}\left(\frac{\partial l}{\partial \vec{a}_2}^T\vec{W}_2 \mathrm{d}\vec{h}_1\right)$，使用矩阵乘法交换的迹技巧从第一项得到 $\frac{\partial l}{\partial \vec{W}_2}= \frac{\partial l}{\partial\vec{a}_2}\vec{h}_1^T$，从第二项得到 $\frac{\partial l}{\partial \vec{h}_1}= \vec{W}_2^T\frac{\partial l}{\partial\vec{a}_2}$。接下来求 $\frac{\partial l}{\partial \vec{a}_1}$，继续使用复合法则，并利用矩阵乘法和逐元素乘法交换的迹技巧：$\mathrm{tr}\left(\frac{\partial l}{\partial\vec{h}_1}^T\mathrm{d}\vec{h}_1\right) = \mathrm{tr}\left(\frac{\partial l}{\partial\vec{h}_1}^T(\sigma’(\vec{a}_1)\odot \mathrm{d}\vec{a}_1)\right) = \mathrm{tr}\left(\left(\frac{\partial l}{\partial\vec{h}_1}\odot \sigma’(\vec{a}_1)\right)^T\mathrm{d}\vec{a}_1\right)$，得到 $\frac{\partial l}{\partial \vec{a}_1}= \frac{\partial l}{\partial\vec{h}_1}\odot\sigma’(\vec{a}_1)$。 为求 $\frac{\partial l}{\partial \vec{W}_1}$，再用一次复合法则：$\mathrm{tr}\left(\frac{\partial l}{\partial\vec{a}_1}^T\mathrm{d}\vec{a}_1\right) = \mathrm{tr}\left(\frac{\partial l}{\partial\vec{a}_1}^T\mathrm{d}\vec{W}_1\vec{x}\right) = \mathrm{tr}\left(\vec{x}\frac{\partial l}{\partial\vec{a}_1}^T\mathrm{d}\vec{W}_1\right)$，得到 $\frac{\partial l}{\partial \vec{W}_1}= \frac{\partial l}{\partial\vec{a}_1}\vec{x}^T$。</p>
+
+<h2 id="section-2">3 矩阵对矩阵的求导</h2>
+
+<p>矩阵对矩阵的求导采用了向量化的思路，常应用于二阶方法求解优化问题。</p>
+
+<p>首先来琢磨一下定义。矩阵对矩阵的导数，需要什么样的定义？第一，矩阵 $\vec{F}(p\times q)$ 对矩阵 $\vec{X}(m\times n)$ 的导数应包含所有 $mnpq$ 个偏导数 $\frac{\partial \vec{F}<em>{kl}}{\partial \vec{X}</em>{ij}}$，从而不损失信息；第二，导数与微分有简明的联系，因为在计算导数和应用中需要这个联系；第三，导数有简明的从整体出发的算法。我们先定义向量 $\vec{f}(p\times 1)$ 对向量 $\vec{x}(m\times1)$ 的导数
+<script type="math/tex">% <![CDATA[
+\begin{equation}
+    \frac{\partial \vec{f}}{\partial \vec{x}} =
+    \begin{bmatrix}
+    \frac{\partial f_1}{\partial x_1} & \frac{\partial f_2}{\partial x_1} & \cdots & \frac{\partial f_p}{\partial x_1}\\ \frac{\partial f_1}{\partial x_2} & \frac{\partial f_2}{\partial x_2} & \cdots & \frac{\partial f_p}{\partial x_2}\\ \vdots & \vdots & \ddots & \vdots\\ \frac{\partial f_1}{\partial x_m} & \frac{\partial f_2}{\partial x_m} & \cdots & \frac{\partial f_p}{\partial x_m}\\ \end{bmatrix}(m\times p)，
+\end{equation} %]]></script>
+有 $\mathrm{d}\vec{f} = \frac{\partial \vec{f} }{\partial \vec{x} }^T \mathrm{d}\vec{x}$；再定义矩阵的（按列优先）向量化
+<script type="math/tex">\begin{equation}
+    \mathrm{vec}(\vec{X}) = [\vec{X}_{11}, \ldots, \vec{X}_{m1}, \vec{X}_{12}, \ldots, \vec{X}_{m2}, \ldots, \vec{X}_{1n}, \ldots, \vec{X}_{mn}]^T(mn\times1),
+\end{equation}</script>
+并定义矩阵 $\vec{F}$ 对矩阵 $\vec{X}$ 的导数：
+<script type="math/tex">\begin{equation}
+    \frac{\partial \vec{F}}{\partial \vec{X}} = \frac{\partial \mathrm{vec}(\vec{F})}{\partial \mathrm{vec}(\vec{X})}(mn\times pq).
+\end{equation}</script>
+导数与微分有联系 $\mathrm{vec}(\mathrm{d}\vec{F}) = \frac{\partial \vec{F}}{\partial \vec{X}}^T \mathrm{vec}(\mathrm{d}\vec{X})$。几点说明如下：</p>
+
+<ul>
+  <li>按此定义，标量 $f$ 对矩阵 $\vec{X}(m\times n)$ 的导数 $\frac{\partial f}{\partial \vec{X}}$ 是 $mn\times1$ 向量，与上篇的定义不兼容，不过二者容易相互转换。为避免混淆，我们用 $\nabla_{\vec{X}} f$ 表示上篇定义的 $m\times n$ 矩阵，则有 $\frac{\partial f}{\partial \vec{X}}=\mathrm{vec}(\nabla_{\vec{X}} f)$。虽然本篇的技术可以用于标量对矩阵求导这种特殊情况，但使用上篇中的技术更方便。读者可以通过上篇中的算例试验两种方法的等价转换；</li>
+  <li>标量对矩阵的二阶导数，又称 Hessian 矩阵，定义为 $\nabla^2_{\vec{X}} f = \frac{\partial^2 f}{\partial \vec{X}^2} = \frac{\partial \nabla_{\vec{X}} f}{\partial \vec{X}}(mn\times mn)$，是对称矩阵。对向量 $\frac{\partial f}{\partial \vec{X}}$ 或矩阵 $\nabla_{\vec{X}} f$ 求导都可以得到 Hessian 矩阵，但从矩阵 $\nabla_{\vec{X}} f$ 出发更方便；</li>
+  <li>$\frac{\partial \vec{F}}{\partial \vec{X}} = \frac{\partial\mathrm{vec} (\vec{F})}{\partial \vec{X}} = \frac{\partial \vec{F}}{\partial \mathrm{vec}(\vec{X})} = \frac{\partial\mathrm{vec}(\vec{F})}{\partial \mathrm{vec}(\vec{X})}$，求导时矩阵被向量化，弊端是这在一定程度破坏了矩阵的结构，会导致结果变得形式复杂；好处是多元微积分中关于梯度、Hessian 矩阵的结论可以沿用过来，只需将矩阵向量化。例如优化问题中，牛顿法的更新 $\Delta \vec{X}$，满足 $\mathrm{vec}(\Delta \vec{X}) = -(\nabla^2_{\vec{X}} f)^{-1}\mathrm{vec}(\nabla_{\vec{X}} f)$；</li>
+  <li>在资料中，矩阵对矩阵的导数还有其它定义，比如 $\frac{\partial \vec{F}}{\partial \vec{X}} = \left<a href="mp\times nq">\frac{\partial \vec{F}_{kl}}{\partial \vec{X}}\right</a>$，它能兼容上篇中的标量对矩阵导数的定义，但微分与导数的联系（$\mathrm{d}\vec{F}$ 等于 $\frac{\partial \vec{F}}{\partial \vec{X}}$ 中每个 $m\times n$ 子块分别与 $\mathrm{d}\vec{X}$ 做内积）不够简明，不便于计算和应用。</li>
+</ul>
+
+<p>然后来建立运算法则。仍然要利用导数与微分的联系 $\mathrm{vec}(\mathrm{d}\vec{F}) = \frac{\partial \vec{F}}{\partial \vec{X}}^T \mathrm{vec}(\mathrm{d}\vec{X})$，求微分的方法与上篇相同，而从微分得到导数需要一些向量化的技巧：</p>
+
+<ul>
+  <li>线性：$\mathrm{vec}(\vec{A}+\vec{B}) = \mathrm{vec}(\vec{A}) + \mathrm{vec}(\vec{B})$；</li>
+  <li>矩阵乘法：$\mathrm{vec}(\vec{AXB}) = (\vec{B}^T \otimes \vec{A}) \mathrm{vec}(\vec{X})$，其中 $\otimes$ 表示 Kronecker 积，$\vec{A}(m\times n)$ 与 $\vec{B}(p\times q)$ 的 Kronecker 积是 $\vec{A}\otimes \vec{B} = <a href="mp\times nq">\vec{A}_{ij}\vec{B}</a>$。此式证明见张贤达《矩阵分析与应用》第 107-108 页；</li>
+  <li>转置：$\mathrm{vec}(\vec{A}^T) = \vec{K}<em>{mn}\mathrm{vec}(\vec{A})$，$\vec{A}$ 是 $m\times n$ 矩阵，其中 $\vec{K}</em>{mn}(mn\times mn)$ 是交换矩阵(commutation matrix)；</li>
+  <li>逐元素乘法：$\mathrm{vec}(\vec{A}\odot \vec{X}) = \mathrm{diag}(\vec{A})\mathrm{vec}(\vec{X})$，其中 $\mathrm{diag}(\vec{A})(mn\times mn)$ 是用 $A$ 的元素（按列优先）排成的对角阵。</li>
+</ul>
+
+<p>观察一下可以断言，若矩阵函数 $\vec{F}$ 是矩阵 $\vec{X}$ 经加减乘法、行列式、逆、逐元素函数等运算构成，则使用相应的运算法则对 $\vec{F}$ 求微分，再做向量化并使用技巧将其它项交换至 $\mathrm{vec}(\mathrm{d}\vec{X})$  左侧，即能得到导数。</p>
+
+<p>再谈一谈复合：假设已求得 $\frac{\partial \vec{F}}{\partial \vec{Y}}$，而 $\vec{Y}$ 是 $\vec{X}$ 的函数，如何求 $\frac{\partial \vec{F}}{\partial \vec{X}}$ 呢？从导数与微分的联系入手，$\mathrm{vec}(\mathrm{d}\vec{F}) = \frac{\partial \vec{F}}{\partial Y}^T\mathrm{vec}(\mathrm{d}\vec{Y}) = \frac{\partial \vec{F}}{\partial \vec{Y}}^T\frac{\partial \vec{Y}}{\partial \vec{X}}^T\mathrm{vec}(\mathrm{d}\vec{X})$，可以推出链式法则 $\frac{\partial \vec{F}}{\partial \vec{X}} = \frac{\partial \vec{Y}}{\partial \vec{X}}\frac{\partial \vec{F}}{\partial \vec{Y}}$。</p>
+
+<p>和标量对矩阵的导数相比，矩阵对矩阵的导数形式更加复杂，从不同角度出发常会得到形式不同的结果。有一些 Kronecker 积和交换矩阵相关的恒等式，可用来做等价变形：</p>
+
+<ul>
+  <li>$(\vec{A}\otimes \vec{B})^T = \vec{A}^T \otimes \vec{B}^T$；</li>
+  <li>$\mathrm{vec}(\vec{ab}^T) = \vec{b}\otimes\vec{a}$；</li>
+  <li>$(\vec{A}\otimes \vec{B})(\vec{C}\otimes \vec{D}) = (\vec{AC})\otimes (\vec{BD})$。可以对 $\vec{F} = \vec{D}^T\vec{B}^T\vec{XAC}$ 求导来证明，一方面，直接求导得到 $\frac{\partial \vec{F}}{\partial \vec{X}} = (\vec{AC}) \otimes (\vec{BD})$；另一方面，引入 $\vec{Y} = \vec{B}^T\vec{XA}$，有 $\frac{\partial \vec{F}}{\partial \vec{Y}} = \vec{C} \otimes \vec{D}$，$\frac{\partial \vec{Y}}{\partial \vec{X}} = \vec{A} \otimes \vec{B}$，用链式法则得到 $\frac{\partial \vec{F}}{\partial \vec{X}} = (\vec{A}\otimes \vec{B})(\vec{C} \otimes \vec{D})$；</li>
+  <li>$\vec{K}<em>{mn} = \vec{K}</em>{nm}^T, \vec{K}<em>{mn}\vec{K}</em>{nm} = \vec{I}$；</li>
+  <li>$\vec{K}<em>{pm}(\vec{A}\otimes \vec{B}) \vec{K}</em>{nq} = \vec{B}\otimes \vec{A}$，$\vec{A}$ 是 $m\times n$ 矩阵，$\vec{B}$ 是 $p\times q$ 矩阵。可以对 $\vec{AXB}^T$ 做向量化来证明，一方面，$\mathrm{vec}(\vec{AXB}^T) = (\vec{B}\otimes \vec{A})\mathrm{vec}(\vec{X})$；另一方面，$\mathrm{vec}(\vec{AXB}^T) = \vec{K}<em>{pm}\mathrm{vec}(\vec{BX}^T\vec{A}^T) = \vec{K}</em>{pm}(\vec{A}\otimes \vec{B})\mathrm{vec}(\vec{X}^T) = \vec{K}<em>{pm}(\vec{A}\otimes \vec{B}) \vec{K}</em>{nq}\mathrm{vec}(\vec{X})$。</li>
+</ul>
+
+<p>接下来演示一些算例。</p>
+
+<p><strong>例1</strong>：$\vec{F} = \vec{AX}$，$\vec{X}$ 是 $m\times n$ 矩阵，求 $\frac{\partial \vec{F}}{\partial \vec{X}}$。</p>
+
+<p>解：先求微分：$\mathrm{d}\vec{F}=\vec{A}\mathrm{d}\vec{X}$，再做向量化，使用矩阵乘法的技巧，注意在 $\mathrm{d}\vec{X}$ 右侧添加单位阵：$\mathrm{vec}(\mathrm{d}\vec{F}) = \mathrm{vec}(\vec{A}\mathrm{d}\vec{X}) = (\vec{I}_n\otimes \vec{A})\mathrm{vec}(\mathrm{d}\vec{X})$，对照导数与微分的联系得到 $\frac{\partial \vec{F}}{\partial \vec{X}} = \vec{I}_n\otimes \vec{A}^T$。</p>
+
+<p>特例：如果 $\vec{X}$ 退化为向量，$\vec{f} = \vec{A} \vec{x}$，则根据向量的导数与微分的关系 $\mathrm{d}\vec{f} = \frac{\partial \vec{f}}{\partial \vec{x}}^T \mathrm{d}\vec{x}$，得到  $\frac{\partial \vec{f}}{\partial \vec{x}} = \vec{A}^T$。</p>
+
+<table>
+  <tbody>
+    <tr>
+      <td><strong>例2</strong>：$\vec{f} = \log</td>
+      <td>\vec{X}</td>
+      <td>$，$\vec{X}$ 是 $n\times n$ 矩阵，求 $\nabla_{\vec{X}} \vec{f}$ 和 $\nabla^2_{\vec{X}} \vec{f}$。</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>解：使用第一部分中的技术可求得 $\nabla_{\vec{X}} \vec{f} = \vec{X}^{-1T}$。为求 $\nabla^2_{\vec{X}} \vec{f}$，先求微分：$\mathrm{d}\nabla_{\vec{X}} \vec{f} = -(\vec{X}^{-1}\mathrm{d}\vec{XX}^{-1})^T$，再做向量化，使用转置和矩阵乘法的技巧
+ $\mathrm{vec}(\mathrm{d}\nabla_{\vec{X}} \vec{f})= -\vec{K}<em>{nn}\mathrm{vec}(\vec{X}^{-1}\mathrm{d}\vec{XX}^{-1}) = -\vec{K}</em>{nn}(\vec{X}^{-1T}\otimes \vec{X}^{-1})\mathrm{vec}(\mathrm{d}\vec{X})$，对照导数与微分的联系，得到 $\nabla^2_{\vec{X}} \vec{f} = -\vec{K}<em>{nn}(\vec{X}^{-1T}\otimes \vec{X}^{-1})$，注意它是对称矩阵。在 $\vec{X}$ 是对称矩阵时，可简化为 $\nabla^2</em>{\vec{X}} \vec{f} = -\vec{X}^{-1}\otimes \vec{X}^{-1}$。</p>
+
+<p><strong>例3</strong>：$\vec{F} = \vec{A}\exp(\vec{XB})$，$\vec{A}$ 是 $l\times m$，$\vec{X}$ 是 $m\times n$，$\vec{B}$ 是 $n\times p$ 矩阵，$\exp()$ 为逐元素函数，求 $\frac{\partial \vec{F}}{\partial \vec{X}}$。</p>
+
+<p>解：先求微分：$\mathrm{d}\vec{F} = \vec{A}(\exp(\vec{XB})\odot (\mathrm{d}\vec{XB}))$，再做向量化，使用矩阵乘法的技巧：$\mathrm{vec}(\mathrm{d}\vec{F}) = (\vec{I}_p\otimes \vec{A})\mathrm{vec}(\exp(\vec{XB})\odot (\mathrm{d}\vec{XB}))$，再用逐元素乘法的技巧：$\mathrm{vec}(\mathrm{d}\vec{F}) = (\vec{I}_p \otimes \vec{A}) \mathrm{diag}(\exp(\vec{XB}))\mathrm{vec}(\mathrm{d}\vec{XB})$，再用矩阵乘法的技巧：$\mathrm{vec}(\mathrm{d}\vec{F}) = (\vec{I}_p\otimes \vec{A})\mathrm{diag}(\exp(\vec{XB}))(\vec{B}^T\otimes I_m)\mathrm{vec}(\mathrm{d}\vec{X})$，对照导数与微分的联系得到 $\frac{\partial \vec{F}}{\partial \vec{X}} = (\vec{B}\otimes \vec{I}_m)\mathrm{diag}(\exp(\vec{XB}))(\vec{I}_p\otimes \vec{A}^T)$。</p>
+
+<p><strong>例4【一元 logistic 回归】</strong>：$l = -y \vec{x}^T \vec{w} + \log(1 + \exp(\vec{x}^T\vec{w}))$，求 $\nabla_{\vec{w}} l$ 和 $\nabla_{\vec{w}}^2 l$。其中 $y$ 是取值 0 或 1 的标量，$\vec{x}$ 和 $\vec{w}$ 是向量。</p>
+
+<p>解：使用上篇中的技术可求得 $\nabla_{\vec{w}} l = \vec{x}(\sigma(\vec{x}^T\vec{w}) - y)$，其中 $\sigma(a) = \frac{\exp(a)}{1+\exp(a)}$ 为 sigmoid 函数。为求 $\nabla_{\vec{w}}^2 l$，先求微分： $\mathrm{d}\nabla_{\vec{w}} l = \vec{x} \sigma’(\vec{x}^T\vec{w})\vec{x}^T \mathrm{d}\vec{w}$，其中 $\sigma’(a) = \frac{\exp(a)}{(1+\exp(a))^2}$ 为 sigmoid 函数的导数，对照导数与微分的联系，得到 $\nabla_{\vec{w}}^2 l = \vec{x}\sigma’(\vec{x}^T\vec{w})\vec{x}^T$。</p>
+
+<p><strong>推广</strong>：样本( $\vec{x}<em>1, y_1), \dots, (\vec{x}_n,y_n)$，$l = \sum</em>{i=1}^N \left(-y_i \vec{x}<em>i^T\vec{w} + \log(1+\exp(\vec{x_i}^T\vec{w}))\right)$，求 $\nabla</em>{\vec{w}} l$ 和 $\nabla_{\vec{w}}^2 l$。 有两种方法，方法一：先对每个样本求导，然后相加；方法二：定义矩阵 $\vec{X} = \begin{bmatrix}\vec{x}<em>1^T \ \vdots \ \vec{x}_n^T \end{bmatrix}$，向量 $\vec{y} = \begin{bmatrix}y_1 \ \vdots \ y_n\end{bmatrix}$，将 $l$ 写成矩阵形式 $l = -\vec{y}^T \vec{X}\vec{w} + \vec{1}^T\log(\vec{1} + \exp(\vec{X}\vec{w}))$，进而可以求得
+ $\nabla</em>{\vec{w}} l = \vec{X}^T(\sigma(\vec{X}\vec{w}) - \vec{y})$，$\nabla_{\vec{w}}^2 l = \vec{X}^T\text{diag}(\sigma’(\vec{X}\vec{w}))\vec{X}$。</p>
+
+<p><strong>例5【多元 logistic 回归】</strong>：$l = -\vec{y}^T\log \mathrm{softmax}(\vec{Wx})=<script type="math/tex">-\vec{y}^T\vec{Wx}+</script>\log(\vec{1}^T\exp(\vec{Wx}))$，求 $\nabla_{\vec{W}} l$ 和 $\nabla_{\vec{W}}^2 l$。</p>
+
+<p><strong>解</strong>：上篇例 3 中已求得 $\nabla_{\vec{W}} l = (\mathrm{softmax}(\vec{Wx})-\vec{y})\vec{x}^T$。为求 $\nabla_{\vec{W}}^2 l$，先求微分：定义 $\vec{a} = \vec{Wx}，\mathrm{d}\mathrm{softmax}(\vec{a}) = \frac{\exp(\vec{a})\odot \mathrm{d}\vec{a}}{\vec{1}^T\exp(\vec{a})} - \frac{\exp(\vec{a}) (\vec{1}^T(\exp(\vec{a})\odot \mathrm{d}\vec{a}))}{(\vec{1}^T\exp(\vec{a}))^2}$，这里需要化简去掉逐元素乘法，第一项中 $\exp(\vec{a})\odot \mathrm{d}\vec{a} = \mathrm{diag}(\exp(\vec{a})) \mathrm{d}\vec{a} $，第二项中 $\vec{1}^T(\exp(\vec{a})\odot \mathrm{d}\vec{a}) = \exp(\vec{a})^T\mathrm{d}\vec{a}$，故有 $\mathrm{d}\mathrm{softmax}(\vec{a}) = \mathrm{softmax}’(\vec{a})\mathrm{d}\vec{a}$，其中
+ $\mathrm{softmax}’(\vec{a}) = \frac{\mathrm{diag}(\exp(\vec{a}))}{\vec{1}^T\exp(\vec{a})} - \frac{\exp(\vec{a})\exp(\vec{a})^T}{(\vec{1}^T\exp(\vec{a}))^2} $，代入有 $\mathrm{d}\nabla_{\vec{W}} l = \mathrm{softmax}’(\vec{a})\mathrm{d}\vec{a}\vec{x}^T = \mathrm{softmax}’(\vec{Wx})\mathrm{d}\vec{Wx}\vec{x}^T$，做向量化并使用矩阵乘法的技巧，得到 $\nabla_{\vec{W}}^2 l = (\vec{x}\vec{x}^T) \otimes \mathrm{softmax}’(\vec{Wx})$。</p>
+
+<p>最后做个总结。我们发展了从整体出发的矩阵求导的技术，导数与微分的联系是计算的枢纽，标量对矩阵的导数与微分的联系是 $\mathrm{d}f = \mathrm{tr}(\nabla_{\vec{X}}^T f \mathrm{d}\vec{X})$，先对 $f$ 求微分，再使用迹技巧可求得导数，特别地，标量对向量的导数与微分的联系是 $\mathrm{d}f = \nabla_{\vec{x}}f^T \mathrm{d}\vec{x}$；矩阵对矩阵的导数与微分的联系是 $\mathrm{vec}(\mathrm{d}\vec{F}) = \frac{\partial \vec{F}}{\partial \vec{X}}^T \mathrm{vec}(\mathrm{d}\vec{X})$，先对 $\vec{F}$  求微分，再使用向量化的技巧可求得导数，特别地，向量对向量的导数与微分的联系是 $\mathrm{d}\vec{f} = \frac{\partial \vec{f}}{\partial \vec{x}}^T\mathrm{d}\vec{x}$。</p>
+
+<h2 id="section-3">4 反向传播算法的完整向量形式推导</h2>
+
+<p>首先定义一些常用的变量：</p>
+
+<ul>
+  <li>$n^l$：第 $l$ 层的神经元个数；</li>
+  <li>$f_l(\cdot)$：第 $l$ 层的激活函数；</li>
+  <li>$\vec{W}^l\in \mathbb{R}^{n^l\times n^{l-1}}$：第 $l-1$ 层到第 $l$ 层的权重矩阵；</li>
+  <li>$\vec{b}^l\in \mathbb{R}^{n^l}$：第 $l-1$ 层到第 $l$ 层的偏置；</li>
+  <li>$\vec{z}^l\in \mathbb{R}^{n^l}$：第 $l$ 层的输入；</li>
+  <li>$\vec{a}^l\in \mathbb{R}^{n^l}$：第 $l$ 层的输出。</li>
+</ul>
+
+<p>在每一层的正向传播过程计算过程如下所示：
+$$
+\begin{align}</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>\vec{z}^l &amp;= \vec{W}^l\vec{a}^{(l-1)} + \vec{b}^l \\
+\vec{a}^l &amp;= f_l(\vec{z}^l) \end{align} $$ 为进行梯度计算，我们需要先写出目标函数： $$ \begin{equation} J(\vec{W},\vec{b})=\sum_{i=1}^{N}J(\vec{W},\vec{b};\vec{x}^i,y^i)+\frac{1}{2}\lambda||\vec{W}||_F^2 \end{equation} $$ 其中 $||\vec{W}||_F^2=\sum_{l=1}^L\sum_{j=1}^{n^{l+1}}\sum_{i=1}^{n^l}W_{ij}^l$。那么对 $\vec{W}$ 和 $\vec{b}$ 的更新公式理论上可以写成： $$ \begin{align}
+\vec{W}^l &amp;= \vec{W}^l-\alpha\frac{\partial J(\vec{W},\vec{b})}{\partial \vec{W}^l} \\
+          &amp;= \vec{W}^l-\alpha\bigg( \sum_{i=1}^N \frac{\partial J(\vec{W},\vec{b};\vec{x}^i,y^i)}{\partial \vec{W}^l} + \lambda\vec{W}^l \bigg) \label{eq1:dw}\\
+\vec{b}^l &amp;= \vec{b}^l-\alpha\frac{\partial J(\vec{W},\vec{b})}{\partial \vec{b}^l} \\
+          &amp;= \vec{b}^l-\alpha \sum_{i=1}^N \frac{\partial J(\vec{W},\vec{b};\vec{x}^i,y^i)}{\partial \vec{b}^l} \label{eq1:db} \end{align} $$ 我们考虑每一个单独样本的梯度，先假设 $\frac{\partial J(\vec{W},\vec{b};\vec{x},y)}{\partial \vec{z}^l}=\vec{\delta}^l$，根据第一部分矩阵导数与微分的联系，有 $\mathrm{d}J=\mathrm{tr}\bigg(\vec{\delta}^{lT}\mathrm{d}\vec{z}^l\bigg)$，而 $\vec{z}^l = \vec{W}^l\vec{a}^{(l-1)} + \vec{b}^l$，所以 $\mathrm{d}\vec{z}^l = \mathrm{d}\vec{W}^l\vec{a}^{(l-1)}$，因此， $$ \begin{align}
+\mathrm{d}J &amp;= \mathrm{tr}\bigg( \vec{\delta}^{lT}\mathrm{d}\vec{W}^l\vec{a}^{(l-1)} \bigg)\\
+            &amp;= \mathrm{tr}\bigg( \vec{a}^{(l-1)}\vec{\delta}^{lT}\mathrm{d}\vec{W}^l \bigg) \end{align} $$ 所以最后有 $$ \begin{equation}
+\frac{\partial J(\vec{W},\vec{b};\vec{x},y)}{\partial \vec{W}^l}=\vec{\delta}^l\vec{a}^{(l-1)T}. \label{eq2:dw} \end{equation} $$ 同理有 $$ \begin{equation}
+\frac{\partial J(\vec{W},\vec{b};\vec{x},y)}{\partial \vec{b}^l}=\vec{\delta}^l. \label{eq2:db} \end{equation} $$ 下面求 $\vec{\delta}^l$，假设已知 $\frac{\partial J(\vec{W},\vec{b};\vec{x},y)}{\partial \vec{z}^{(l+1)}}=\vec{\delta}^{(l+1)}$，则有 $\mathrm{d}J=\mathrm{tr}\bigg(\vec{\delta}^{(l+1)T}\mathrm{d}\vec{z}^{(l+1)}\bigg)$，而 $\vec{z}^{(l+1)} = \vec{W}^{(l+1)}\vec{a}^l + \vec{b}^{(l+1)}$，所以 $\mathrm{d}\vec{z}^{(l+1)} = \vec{W}^{(l+1)} \mathrm{d}\vec{a}^l$，又因为 $\vec{a}^l=f_l(\vec{z}^l)$ 是逐元素的，所以 $\mathrm{d}\vec{a}^l=\mathrm{diag}(f'_l(\vec{z}^l))\mathrm{d}\vec{z}^l$，代入后有 $$ \begin{equation}
+\mathrm{d}J=\mathrm{tr}\bigg( \vec{\delta}^{(l+1)T}\vec{W}^{(l+1)}\mathrm{diag}(f'_l(\vec{z}^l))\mathrm{d}\vec{z}^l \bigg). \end{equation} $$ 所以有 $$ \begin{equation}
+\vec{\delta}^l=\frac{\partial J(\vec{W},\vec{b};\vec{x},y)}{\partial \vec{z}^l}=\mathrm{diag}(f'_l(\vec{z}^l))\vec{W}^{(l+1)T}\vec{\delta}^{(l+1)}. \label{eq2:delta} \end{equation} $$ 其中当 $f(\vec{x})=\mathrm{sigmoid}(\vec{x})$ 时，有 $f'(\vec{x})=f(\vec{x})(1-f(\vec{x}))$，当 $f(\vec{x})=\mathrm{tanh}(\vec{x})$ 时，有 $f'(\vec{x})=1-f(\vec{x})^2$。
+</code></pre>
+</div>
+
+<p>最后考虑最后一层的 $\vec{\delta}^{(l+1)}$。当使用交叉熵损失函数时（以下 $\vec{a}$ 和 $\vec{z}$ 都略去上标 $(l+1)$）
+<script type="math/tex">\begin{equation}
+    J(\vec{W},\vec{b};\vec{x},y)=-\vec{y}^T\ln\vec{a}-(\vec{1}-\vec{y})^T\ln(1-\vec{a}).
+\end{equation}</script>
+这时
+<script type="math/tex">% <![CDATA[
+\begin{align}
+    \mathrm{d}J &= -\vec{y}^T\bigg(\frac{1}{\vec{a}} \odot \mathrm{d}\vec{a}\bigg)-(\vec{1}-\vec{y})^T\bigg(\frac{-1}{\vec{1}-\vec{a}}\odot \mathrm{d}\vec{a}\bigg) \\
+                &= -\bigg(\vec{y} \odot \frac{1}{\vec{a}} \bigg)^T \mathrm{d}\vec{a} + \bigg( (\vec{1}-\vec{y})\odot\frac{1}{\vec{1}-\vec{a}}\bigg)^T \mathrm{d}\vec{a} \\
+                &= \bigg(-\vec{y} \odot \frac{1}{\vec{a}} + (\vec{1}-\vec{y})\odot\frac{1}{\vec{1}-\vec{a}}\bigg)^T \mathrm{d}\vec{a}
+\end{align} %]]></script>
+又因为 $\mathrm{d}\vec{a}=\mathrm{diag}(\mathrm{sigmoid}’(\vec{z}))\mathrm{d}\vec{z}=\mathrm{diag}(\vec{a(1-a)})\mathrm{d}\vec{z}​$，代入上式有
+<script type="math/tex">% <![CDATA[
+\begin{align}
+    \mathrm{d}J &= \bigg(-\vec{y} \odot \frac{1}{\vec{a}} + (\vec{1-y})\odot\frac{1}{\vec{1-a}}\bigg)^T \mathrm{diag}(\vec{a(1-a)})\mathrm{d}\vec{z} \\
+                &= \bigg(-\mathrm{diag}(\vec{a(1-a)}) \vec{y} \odot \frac{1}{\vec{a}} + \mathrm{diag}(\vec{a(1-a)})(\vec{1-y})\odot\frac{1}{\vec{1-a}}\bigg)^T \mathrm{d}\vec{z} \\
+                &= (-\vec{y}+\vec{y}\odot\vec{a} + \vec{a} - \vec{a}\odot\vec{y})^T \mathrm{d}\vec{z} \\
+                &= (-\vec{y}+\vec{a})^T \mathrm{d}\vec{z} 
+\end{align} %]]></script>
+所以有
+<script type="math/tex">\begin{equation}
+    \vec{\delta}^{(l+1)}=\frac{\partial J(\vec{W},\vec{b};\vec{x},y)}{\partial \vec{z}^{(l+1)}}=-\vec{y}+\vec{a}^{(l+1)}. \label{eq:delta}
+\end{equation}</script>
+最后，将式 \ref{eq:delta} 和式 \ref{eq2:db} 代入式 \ref{eq1:db} 则得到偏置项 $\vec{b}$ 的更新公式，将式 \ref{eq:delta}，式 \ref{eq2:delta} 和式 \ref{eq2:dw} 代入式 \ref{eq1:dw} 则得到 $\vec{W}$ 的更新公式。</p>
+
+      </article>
+      <hr>
+      <div class="bdsharebuttonbox"><a href="#" class="bds_more" data-cmd="more"></a><a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a><a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a><a href="#" class="bds_douban" data-cmd="douban" title="分享到豆瓣网"></a><a href="#" class="bds_fbook" data-cmd="fbook" title="分享到Facebook"></a><a href="#" class="bds_copy" data-cmd="copy" title="分享到复制网址"></a></div>
+      <script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"1","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+    </div>
+    <!--div class="post-area post comment"-->
+      <!-- 多说评论框 start -->
+      
+      <!--div class="ds-thread" data-thread-key="/2017/12/19/test" data-title="矩阵求导" data-url="caoxiaoqing.github.io/2017/12/19/test/"></div-->
+      
+      <!-- 多说评论框 end -->
+    <!--/div-->
+  </div>
+
+  <div id="content" class="col-sm-3">
+    <!-- <div id="myAffix" class="shadow-bottom-center hidden-xs" data-spy="affix" data-offset-top="0" data-offset-bottom="-20"> -->
+    <div id="myAffix" class="shadow-bottom-center hidden-xs" >
+      <div class="categories-list-header">
+        Content
+      </div>
+      <div class="content-text"></div>
+    </div>
+  </div>
+</div>
+    </div>
+
+    
+    <div id="top" data-toggle="tooltip" data-placement="left" title="回到顶部">
+      <a href="javascript:;">
+        <div class="arrow"></div>
+        <div class="stick"></div>
+      </a>
+    </div>
+
+    <footer class="">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <a href="mailto:CaoXiaoqing2008@gmail/163.com"><span class="glyphicon glyphicon-envelope"></span> CaoXiaoqing2008@gmail/163.com</a>
+        <span class="point"> · </span>
+        
+          
+          <a href="https://github.com/caoxiaoqing">
+            <span class="icon">
+              <svg viewBox="0 0 16 16">
+                <path fill="#aaa" d="M7.999,0.431c-4.285,0-7.76,3.474-7.76,7.761 c0,3.428,2.223,6.337,5.307,7.363c0.388,0.071,0.53-0.168,0.53-0.374c0-0.184-0.007-0.672-0.01-1.32 c-2.159,0.469-2.614-1.04-2.614-1.04c-0.353-0.896-0.862-1.135-0.862-1.135c-0.705-0.481,0.053-0.472,0.053-0.472 c0.779,0.055,1.189,0.8,1.189,0.8c0.692,1.186,1.816,0.843,2.258,0.645c0.071-0.502,0.271-0.843,0.493-1.037 C4.86,11.425,3.049,10.76,3.049,7.786c0-0.847,0.302-1.54,0.799-2.082C3.768,5.507,3.501,4.718,3.924,3.65 c0,0,0.652-0.209,2.134,0.796C6.677,4.273,7.34,4.187,8,4.184c0.659,0.003,1.323,0.089,1.943,0.261 c1.482-1.004,2.132-0.796,2.132-0.796c0.423,1.068,0.157,1.857,0.077,2.054c0.497,0.542,0.798,1.235,0.798,2.082 c0,2.981-1.814,3.637-3.543,3.829c0.279,0.24,0.527,0.713,0.527,1.437c0,1.037-0.01,1.874-0.01,2.129 c0,0.208,0.14,0.449,0.534,0.373c3.081-1.028,5.302-3.935,5.302-7.362C15.76,3.906,12.285,0.431,7.999,0.431z"/>
+              </svg>
+            </span>
+            GitHub
+            <!-- <span>caoxiaoqing</span> -->
+          </a>
+          
+          
+          <span class="point"> · </span>
+          <!--span><a href="/feed.xml">RSS</a></span-->
+          <!--span class="point"> · </span-->
+          <span>曹孝卿的博客 生活爱好者</span>
+          <span class="point"> · </span>
+          <span>&copy; 2018 CaoXiaoqing</span>
+
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+    <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+  <!--script type="text/javascript">
+    var duoshuoQuery = {short_name:"cxqblog"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script-->
+<!-- 多说公共JS代码 end -->
+
+<!-- 在新窗口中打开 -->
+  <script type="text/javascript">
+    function addBlankTargetForLinks () {
+      $('a[href^="http"]').each(function(){
+          $(this).attr('target', '_blank');
+      });
+    }
+    $(document).bind('DOMNodeInserted', function(event) {
+      addBlankTargetForLinks();
+    });
+  </script>
+  </body>
+</html>
