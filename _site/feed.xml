@@ -5,8 +5,8 @@
     <description>曹孝卿的博客 生活爱好者</description>
     <link>/</link>
     <atom:link href="/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Mon, 14 May 2018 14:35:45 +0800</pubDate>
-    <lastBuildDate>Mon, 14 May 2018 14:35:45 +0800</lastBuildDate>
+    <pubDate>Mon, 14 May 2018 15:18:15 +0800</pubDate>
+    <lastBuildDate>Mon, 14 May 2018 15:18:15 +0800</lastBuildDate>
     <generator>Jekyll v3.1.2</generator>
     
       <item>
@@ -135,7 +135,18 @@ y_i^{k}=\left\{
 
 &lt;h2 id=&quot;section-2&quot;&gt;8. 应用于在线学习&lt;/h2&gt;
 
-&lt;p&gt;online-SVRG&lt;/p&gt;
+&lt;p&gt;以上算法都只是适用于有限数据集的，我所关注的在线学习面临的是无限数据集，因此上述方法都不适用。但是有了上面的套路，我们也可以轻松地设计出适用在线学习的方差缩减方法，比如下面这个算法：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/css/pics/2018-05-07-SVRG-online-v1.png&quot; alt=&quot;online SVRG算法&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;对上面 online SVRG v1 算法做几点说明：&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;g_{old}&lt;/script&gt; 来自上一次的梯度，这里可以不要求是同一个 mini batch 的数据，其中的 &lt;script type=&quot;math/tex&quot;&gt;w_k&lt;/script&gt; 也可以是被其他 worker 更新后的值，因此，这个算法可以适用于多 worker 异步更新的场合，因为我们可以假设在很短的一个时间内，所有 worker 拿到的数据都是独立同分布的。&lt;/li&gt;
+  &lt;li&gt;为了获得上文第二部分所说的 &lt;script type=&quot;math/tex&quot;&gt;\mathbb{E}Y&lt;/script&gt;，也就是上文其他算法中的 &lt;script type=&quot;math/tex&quot;&gt;\nabla R_n(w_k)&lt;/script&gt;，我们使用了一个滑动加权平均的方式，其中参数 &lt;script type=&quot;math/tex&quot;&gt;d&lt;/script&gt; 是为了控制历史值与当前值的权重分配。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;为什么我们还要指定学习率 &lt;script type=&quot;math/tex&quot;&gt;\eta&lt;/script&gt; 和衰减系数 &lt;script type=&quot;math/tex&quot;&gt;d&lt;/script&gt; 呢？已经有很多算法可以免去这两个超参数了，我们可以把他们的思想拿过来，和上面的算法进行综合，得到一个真正免超参，同时又能降低梯度估计方差，提升学习率的算法，这就是我们后续提出的 online SVRG v2 算法，关于这个算法我们下一篇再写，这里写不下了。&lt;/p&gt;
 
 &lt;h2 id=&quot;reference&quot;&gt;Reference&lt;/h2&gt;
 

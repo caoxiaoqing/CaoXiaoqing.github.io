@@ -224,7 +224,18 @@ y_i^{k}=\left\{
 
 <h2 id="section-2">8. 应用于在线学习</h2>
 
-<p>online-SVRG</p>
+<p>以上算法都只是适用于有限数据集的，我所关注的在线学习面临的是无限数据集，因此上述方法都不适用。但是有了上面的套路，我们也可以轻松地设计出适用在线学习的方差缩减方法，比如下面这个算法：</p>
+
+<p><img src="/css/pics/2018-05-07-SVRG-online-v1.png" alt="online SVRG算法" /></p>
+
+<p>对上面 online SVRG v1 算法做几点说明：</p>
+
+<ul>
+  <li><script type="math/tex">g_{old}</script> 来自上一次的梯度，这里可以不要求是同一个 mini batch 的数据，其中的 <script type="math/tex">w_k</script> 也可以是被其他 worker 更新后的值，因此，这个算法可以适用于多 worker 异步更新的场合，因为我们可以假设在很短的一个时间内，所有 worker 拿到的数据都是独立同分布的。</li>
+  <li>为了获得上文第二部分所说的 <script type="math/tex">\mathbb{E}Y</script>，也就是上文其他算法中的 <script type="math/tex">\nabla R_n(w_k)</script>，我们使用了一个滑动加权平均的方式，其中参数 <script type="math/tex">d</script> 是为了控制历史值与当前值的权重分配。</li>
+</ul>
+
+<p>为什么我们还要指定学习率 <script type="math/tex">\eta</script> 和衰减系数 <script type="math/tex">d</script> 呢？已经有很多算法可以免去这两个超参数了，我们可以把他们的思想拿过来，和上面的算法进行综合，得到一个真正免超参，同时又能降低梯度估计方差，提升学习率的算法，这就是我们后续提出的 online SVRG v2 算法，关于这个算法我们下一篇再写，这里写不下了。</p>
 
 <h2 id="reference">Reference</h2>
 
