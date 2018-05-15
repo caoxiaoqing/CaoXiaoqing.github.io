@@ -359,9 +359,9 @@
 <script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
 <script>
 var gitment = new Gitment({
-  id: 'location.href', // 可选。默认为 location.href
+  id: document.title, // 可选。默认为 location.href, '<%= page.title %>'
   owner: 'caoxiaoqing',
-  repo: 'https://github.com/caoxiaoqing/CaoXiaoqing.github.io',
+  repo: 'CaoXiaoqing.github.io',
   oauth: {
     client_id: 'f6c98a7a3fd7c7cf3b6b',
     client_secret: '3ffd1d22c828ecafb8ae282bffa8fe1b3af0ada8',
@@ -372,30 +372,6 @@ gitment.render('container')
 
 
 
-
-<div id="disqus_thread"></div>
-<script>
-    /**
-     * RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
-     * LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables
-     */
-
-    var disqus_config = function() {
-        this.page.url = 'https://caoxiaoqing.github.io/2018/05/08/%E6%84%8F%E8%AF%86%E8%AF%9E%E7%94%9F%E4%BA%8E%E4%B8%8A%E5%B8%9D%E6%B2%89%E9%BB%98%E6%97%B6/'; // Replace PAGE_URL with your page's canonical URL variable
-        this.page.identifier = 'https://caoxiaoqing.github.io/2018/05/08/%E6%84%8F%E8%AF%86%E8%AF%9E%E7%94%9F%E4%BA%8E%E4%B8%8A%E5%B8%9D%E6%B2%89%E9%BB%98%E6%97%B6/'; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
-    };
-
-    (function() { // DON'T EDIT BELOW THIS LINE
-        var d = document,
-            s = d.createElement('script');
-
-        s.src = '//caoxiaoqing.disqus.com/embed.js';
-
-        s.setAttribute('data-timestamp', +new Date());
-        (d.head || d.body).appendChild(s);
-    })();
-</script>
-<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
 
 
 

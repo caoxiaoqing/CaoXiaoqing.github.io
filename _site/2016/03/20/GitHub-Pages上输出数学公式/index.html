@@ -285,9 +285,9 @@ src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorM
 <script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
 <script>
 var gitment = new Gitment({
-  id: 'location.href', // 可选。默认为 location.href
+  id: document.title, // 可选。默认为 location.href, '<%= page.title %>'
   owner: 'caoxiaoqing',
-  repo: 'https://github.com/caoxiaoqing/CaoXiaoqing.github.io',
+  repo: 'CaoXiaoqing.github.io',
   oauth: {
     client_id: 'f6c98a7a3fd7c7cf3b6b',
     client_secret: '3ffd1d22c828ecafb8ae282bffa8fe1b3af0ada8',
@@ -298,30 +298,6 @@ gitment.render('container')
 
 
 
-
-<div id="disqus_thread"></div>
-<script>
-    /**
-     * RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
-     * LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables
-     */
-
-    var disqus_config = function() {
-        this.page.url = 'https://caoxiaoqing.github.io/2016/03/20/GitHub-Pages%E4%B8%8A%E8%BE%93%E5%87%BA%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F/'; // Replace PAGE_URL with your page's canonical URL variable
-        this.page.identifier = 'https://caoxiaoqing.github.io/2016/03/20/GitHub-Pages%E4%B8%8A%E8%BE%93%E5%87%BA%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F/'; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
-    };
-
-    (function() { // DON'T EDIT BELOW THIS LINE
-        var d = document,
-            s = d.createElement('script');
-
-        s.src = '//caoxiaoqing.disqus.com/embed.js';
-
-        s.setAttribute('data-timestamp', +new Date());
-        (d.head || d.body).appendChild(s);
-    })();
-</script>
-<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
 
 
 

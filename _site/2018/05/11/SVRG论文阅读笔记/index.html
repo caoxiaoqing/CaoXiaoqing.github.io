@@ -265,7 +265,7 @@ y_i^{k}=\left\{
 
 <p>按照上文对方差缩减方法的描述，对此公式为什么能降低梯度估计的方差就可以有个直观的解释：因为 <script type="math/tex">\nabla f_{i_j}(w_k)</script> 的期望就是 <script type="math/tex">\nabla R_n(w_k)</script>，因此可以将 <script type="math/tex">(\nabla f_{i_j}(w_k)-\nabla R_n(w_k))</script> 视为梯度估计 <script type="math/tex">\nabla f_{i_j}(w_k)</script> 的 bias，那么在每一次的迭代中，算法都对基于当前参数 <script type="math/tex">\tilde w_j</script> 做的梯度估计 <script type="math/tex">\nabla f_{i_j}(\tilde w_j)</script> 进行了一次修正。在 SGD 的收敛性分析中，假定了样本梯度的方差是有个常数上界的 (见文章 <a href="#Reference">[4]</a> 的 Assumption 4.3(c))，正是这个常数上界的存在导致 SGD 算法无法线性收敛，SVRG 利用它新的更新方式可以让估计的梯度方差有个不断减小的上界 (见文章 <a href="#Reference">[4]</a> 的 Theorem 5.1)，这就是 SVRG 算法的核心思想，这也是为什么这个算法被称为 SVRG（stochastic variance reduced gradient）的原因，SVRG 算法在目标函数光滑和强凸的情况下做到线性收敛速度。更多更为正式更为数学的分析可参考 bottou 大神写的综述文章 <a href="#Reference">[4]</a>。</p>
 
-<p>SVRG 算法的问题是虽然不用存储所有样本的梯度了，但是计算量上去了，因为它在每次的大迭代里面还有一轮小迭代，每次都要算两遍梯度，整体的计算量已经和 GD 一样了，而且还多一个超参数 <script type="math/tex">m</script> 要调。</p>
+<p>SVRG 算法的问题是虽然不用存储所有样本的梯度了，但是计算量上去了，因为它在每次的大迭代里面还有一轮小迭代，每次都要算两遍梯度，整体的计算量已经和 GD 一样了，而且还多一个超参数 <script type="math/tex">m</script> 要调。另外，<a href="/media/docs/Lecture5_online_vs_offline_learning_variance_reduction_and_svrg.pdf">这里</a> 有一个 PPT ，讲的还比较通俗，可以随意看看。</p>
 
 <h2 id="saga--6reference">5. SAGA 算法 <a href="#Reference">[6]</a></h2>
 
@@ -297,6 +297,8 @@ y_i^{k}=\left\{
 <p>然而，这样的改变之后，新算法的计算成本成为了 <script type="math/tex">O((B+N)T)</script>。也就是说，这是一个不依赖全局数据量大小的数值。而通过分析，作者们也比较了 SCSG 的通讯成本和一些原本就为了通讯成本而设计的算法，在很多情况下，SCSG 的通讯成本更优。通过 MNIST 数据集的实验发现，SCSG 达到相同的准确度，需要比 SVRG 更少的轮数，和每一轮更少的数据。可以说，这个算法可能会成为 SVRG 的简单替代。</p>
 
 <h2 id="section-1">7. 其它方法</h2>
+
+<p>有了套路，设计算法就 easy 多了，到目前为止已经有各种各样的 SVRG 类算法，除了下面列出的这些，还有朱泽园的 SVRG++，Alex 的 MSVRG 以及 Roy Frostig 的 streaming SVRG 等等。</p>
 
 <p>S2GD(Semi-Stochastic Gradient Descent Methods)</p>
 
@@ -468,9 +470,9 @@ y_i^{k}=\left\{
 <script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
 <script>
 var gitment = new Gitment({
-  id: 'location.href', // 可选。默认为 location.href
+  id: document.title, // 可选。默认为 location.href, '<%= page.title %>'
   owner: 'caoxiaoqing',
-  repo: 'https://github.com/caoxiaoqing/CaoXiaoqing.github.io',
+  repo: 'CaoXiaoqing.github.io',
   oauth: {
     client_id: 'f6c98a7a3fd7c7cf3b6b',
     client_secret: '3ffd1d22c828ecafb8ae282bffa8fe1b3af0ada8',
@@ -481,30 +483,6 @@ gitment.render('container')
 
 
 
-
-<div id="disqus_thread"></div>
-<script>
-    /**
-     * RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
-     * LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables
-     */
-
-    var disqus_config = function() {
-        this.page.url = 'https://caoxiaoqing.github.io/2018/05/11/SVRG%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/'; // Replace PAGE_URL with your page's canonical URL variable
-        this.page.identifier = 'https://caoxiaoqing.github.io/2018/05/11/SVRG%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/'; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
-    };
-
-    (function() { // DON'T EDIT BELOW THIS LINE
-        var d = document,
-            s = d.createElement('script');
-
-        s.src = '//caoxiaoqing.disqus.com/embed.js';
-
-        s.setAttribute('data-timestamp', +new Date());
-        (d.head || d.body).appendChild(s);
-    })();
-</script>
-<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
 
 
 
