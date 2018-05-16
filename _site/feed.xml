@@ -5,8 +5,8 @@
     <description></description>
     <link>https://caoxiaoqing.github.io/</link>
     <atom:link href="https://caoxiaoqing.github.io/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Tue, 15 May 2018 14:33:27 +0800</pubDate>
-    <lastBuildDate>Tue, 15 May 2018 14:33:27 +0800</lastBuildDate>
+    <pubDate>Wed, 16 May 2018 14:39:42 +0800</pubDate>
+    <lastBuildDate>Wed, 16 May 2018 14:39:42 +0800</lastBuildDate>
     <generator>Jekyll v3.1.2</generator>
     
       <item>
@@ -53,7 +53,7 @@
       <item>
         <title>矩阵求导</title>
         <description>
-矩阵求导的技术，在统计学、控制论、机器学习等领域有广泛的应用。本文来做个科普，分作两部分，第一部分讲标量对矩阵的求导术，第二部分讲矩阵对矩阵的求导术。本文使用小写字母 &lt;script type=&quot;math/tex&quot;&gt;x&lt;/script&gt; 表示标量，粗体小写字母 &lt;script type=&quot;math/tex&quot;&gt;\vec{x}&lt;/script&gt; 表示向量，大写字母 &lt;script type=&quot;math/tex&quot;&gt;\vec{X}&lt;/script&gt; 表示矩阵。本文第一部分标量对矩阵的求导整理自：&lt;a href=&quot;https://zhuanlan.zhihu.com/p/24709748&quot;&gt;这里&lt;/a&gt;，本文第二部分矩阵对矩阵的求导整理自：&lt;a href=&quot;https://zhuanlan.zhihu.com/p/24863977&quot;&gt;那里&lt;/a&gt;
+矩阵求导的技术，在统计学、控制论、机器学习等领域有广泛的应用。本文来做个科普，分作两部分，第一部分讲标量对矩阵的求导术，第二部分讲矩阵对矩阵的求导术。本文使用小写字母 &lt;script type=&quot;math/tex&quot;&gt;x&lt;/script&gt; 表示标量，粗体小写字母 &lt;script type=&quot;math/tex&quot;&gt;\vec{x}&lt;/script&gt; 表示向量，大写字母 &lt;script type=&quot;math/tex&quot;&gt;\vec{X}&lt;/script&gt; 表示矩阵。本文第一部分标量对矩阵的求导整理自：&lt;a href=&quot;https://zhuanlan.zhihu.com/p/24709748&quot;&gt;这里&lt;/a&gt;，第二部分矩阵对矩阵的求导整理自：&lt;a href=&quot;https://zhuanlan.zhihu.com/p/24863977&quot;&gt;那里&lt;/a&gt; ，第三部分则是根据以上两部分提供的方法，完成了 BP 算法的完整向量形式推导。
 
 </description>
         <pubDate>Tue, 19 Dec 2017 06:08:54 +0800</pubDate>
